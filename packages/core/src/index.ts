@@ -9,13 +9,13 @@ export const toJsonSchema = async (
   let mod: Promise<typeof import("./arktype")>;
   switch (vendor) {
     case "arktype":
-      mod = import("./arktype");
+      mod = import("./arktype.js");
       break;
     case "valibot":
-      mod = import("./valibot");
+      mod = import("./valibot.js");
       break;
     case "zod":
-      mod = import("./zod");
+      mod = import("./zod.js");
       break;
     default:
       throw new Error(`standard-json: Unsupported schema vendor "${vendor}"`);
