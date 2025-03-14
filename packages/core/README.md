@@ -1,5 +1,9 @@
 # Standard JSON
 
+[![npm version](https://img.shields.io/npm/v/@standard-community/standard-json.svg)](https://npmjs.org/package/@standard-community/standard-json "View this project on NPM")
+[![npm downloads](https://img.shields.io/npm/dm/@standard-community/standard-json)](https://www.npmjs.com/package/@standard-community/standard-json)
+[![license](https://img.shields.io/npm/l/@standard-community/standard-json)](LICENSE)
+
 Standard Schema Validator's JSON Schema Converter
 
 ## Usage
