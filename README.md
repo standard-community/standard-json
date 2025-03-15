@@ -46,9 +46,9 @@ List of supported validators -
 | Vendor  | Supported |
 | ------- | ------- |
 | Zod     | ✅ |
-| Valibot | ✅    |
-| ArkType | ✅    |
-| Effect Schema | ✅    |
+| Valibot | ✅ |
+| ArkType | ✅ |
+| Effect Schema | 🛠️ |
 
 You can check the compatibility versions at [standardschema.dev](https://standardschema.dev/)
 

@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "build": "pkgroll --minify --clean-dist",
+    "test": "vitest",
     "prepare": "is-ci || husky",
     "format": "biome check --write ."
   },
@@ -72,6 +73,7 @@
     "pkgroll": "^2.5.1",
     "typescript": "^5.8.2",
     "valibot": "^1.0.0-rc.4",
+    "vitest": "^3.0.8",
     "zod": "^3.24.2"
   },
   "packageManager": "pnpm@10.6.3+sha512.bb45e34d50a9a76e858a95837301bfb6bd6d35aea2c5d52094fa497a467c43f5c440103ce2511e9e0a2f89c3d6071baac3358fc68ac6fb75e2ceb3d2736065e6"
