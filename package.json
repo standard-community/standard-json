@@ -11,7 +11,6 @@
   ],
   "scripts": {
     "build": "pkgroll --minify --clean-dist",
-    "commit": "czg",
     "setup": "is-ci || husky",
     "format": "biome check --write ."
   },
@@ -67,7 +66,6 @@
     "@standard-schema/spec": "^1.0.0",
     "@types/json-schema": "^7.0.15",
     "arktype": "^2.0.4",
-    "czg": "^1.11.1",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
     "nano-staged": "^0.8.0",
