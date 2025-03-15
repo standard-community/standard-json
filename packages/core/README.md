@@ -6,6 +6,21 @@
 
 Standard Schema Validator's JSON Schema Converter
 
+## Installation
+
+Install the main package -
+
+```sh
+pnpm add @standard-community/standard-json
+```
+
+For some specific vendor, install the respective package also -
+
+| Vendor  | Package |
+| ------- | ------- |
+| Zod     | `zod-to-json-schema` |
+| Valibot | `@valibot/to-json-schema` |
+
 ## Usage
 
 ```ts
