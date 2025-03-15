@@ -23,7 +23,7 @@ describe("basic", () => {
       myUnion: Schema.Union(Schema.Number, Schema.Boolean),
     });
 
-    const jsonSchema = await toJsonSchema(schema);
+    const jsonSchema = await toJsonSchema(Schema.standardSchemaV1(schema));
     expect(jsonSchema).toMatchSnapshot();
   });
 
