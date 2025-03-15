@@ -1,10 +1,6 @@
 import type { JSONSchema7 } from "json-schema";
+import { zodToJsonSchema } from "zod-to-json-schema";
+import type * as z from "zod";
 
-export const toJsonSchema = async () => {
-  try {
-    const { zodToJsonSchema } = await import("zod-to-json-schema");
-    return zodToJsonSchema as (schema: unknown) => JSONSchema7;
-  } catch {
-    throw new Error('standard-json: Missing dependencies "zod-to-json-schema"');
-  }
-};
+export const toJsonSchema = (schema: z.ZodType) =>
+  zodToJsonSchema(schema) as JSONSchema7;

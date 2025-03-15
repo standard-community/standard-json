@@ -46,8 +46,9 @@ List of supported validators -
 | Vendor  | Version |
 | ------- | ------- |
 | Zod     | 3.24.0+ |
-| Valibot | 1.0+    |
-| ArkType | 2.0+    |
+| Valibot | v1.0+    |
+| ArkType | v2.0+    |
+| Effect Schema | v3.13.0+    |
 
 ## Credit
 

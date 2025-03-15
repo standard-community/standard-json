@@ -1,12 +1,6 @@
 import type { JSONSchema7 } from "json-schema";
+import { toJsonSchema as vToJsonSchema } from "@valibot/to-json-schema";
+import type { BaseSchema } from "valibot";
 
-export const toJsonSchema = async () => {
-  try {
-    const { toJsonSchema } = await import("@valibot/to-json-schema");
-    return toJsonSchema as (schema: unknown) => JSONSchema7;
-  } catch {
-    throw new Error(
-      'standard-json: Missing dependencies "@valibot/to-json-schema"',
-    );
-  }
-};
+export const toJsonSchema = (schema: BaseSchema<any, any, any>) =>
+  vToJsonSchema(schema) as JSONSchema7;

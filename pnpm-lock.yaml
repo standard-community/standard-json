@@ -32,9 +32,9 @@ importers:
       '@valibot/to-json-schema':
         specifier: ^1.0.0-rc.0
         version: 1.0.0-rc.0(valibot@1.0.0-rc.4(typescript@5.8.2))
-      arktype:
-        specifier: ^2.0.4
-        version: 2.1.9
+      effect:
+        specifier: ^3.13.10
+        version: 3.13.10
       zod-to-json-schema:
         specifier: ^3.24.1
         version: 3.24.3(zod@3.24.2)
@@ -45,9 +45,18 @@ importers:
       '@types/json-schema':
         specifier: ^7.0.15
         version: 7.0.15
+      arktype:
+        specifier: ^2.0.4
+        version: 2.1.9
       pkgroll:
         specifier: ^2.5.1
         version: 2.11.2(typescript@5.8.2)
+      valibot:
+        specifier: ^1.0.0-rc.4
+        version: 1.0.0-rc.4(typescript@5.8.2)
+      zod:
+        specifier: ^3.24.2
+        version: 3.24.2
 
 packages:
 
@@ -477,6 +486,9 @@ packages:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
     engines: {node: '>=0.10.0'}
 
+  effect@3.13.10:
+    resolution: {integrity: sha512-f2n51BJJ25G9rb/C1ClkgsVFXH6YTkCHmd6ebpu6cAkwQxfhnfbkVWKgkn3nyW9YnC9z4K8bGohRYaZ+HyWtLg==}
+
   esbuild@0.24.2:
     resolution: {integrity: sha512-+9egpBW8I3CD5XPe0n6BfT5fxLzxrlDzqydF3aviG+9ni1lDC/OvMHcxqEFV0+LANZG5R1bFMWfUrjVsdwxJvA==}
     engines: {node: '>=18'}
@@ -487,6 +499,10 @@ packages:
 
   estree-walker@2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
+
+  fast-check@3.23.2:
+    resolution: {integrity: sha512-h5+1OzzfCC3Ef7VbtKdcv7zsstUQwUDlYpUTvjeUsJAssPgLn7QzbboPtL5ro04Mq0rPOsMzl7q5hIbRs2wD1A==}
+    engines: {node: '>=8.0.0'}
 
   fast-glob@3.3.3:
     resolution: {integrity: sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==}
@@ -593,6 +609,9 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
+
+  pure-rand@6.1.0:
+    resolution: {integrity: sha512-bVWawvoZoBYpp6yIoQtQXHZjmz35RSVHnUOTefl8Vcjr8snTPY1wnpSPMWekcFwbxI6gtmT7rSYPFvz71ldiOA==}
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -924,6 +943,11 @@ snapshots:
 
   deepmerge@4.3.1: {}
 
+  effect@3.13.10:
+    dependencies:
+      '@standard-schema/spec': 1.0.0
+      fast-check: 3.23.2
+
   esbuild@0.24.2:
     optionalDependencies:
       '@esbuild/aix-ppc64': 0.24.2
@@ -955,6 +979,10 @@ snapshots:
   estree-walker@0.6.1: {}
 
   estree-walker@2.0.2: {}
+
+  fast-check@3.23.2:
+    dependencies:
+      pure-rand: 6.1.0
 
   fast-glob@3.3.3:
     dependencies:
@@ -1051,6 +1079,8 @@ snapshots:
       rollup-pluginutils: 2.8.2
     optionalDependencies:
       typescript: 5.8.2
+
+  pure-rand@6.1.0: {}
 
   queue-microtask@1.2.3: {}
 
