@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "pkgroll --minify --clean-dist",
-    "setup": "is-ci || husky",
+    "prepare": "is-ci || husky",
     "format": "biome check --write ."
   },
   "keywords": [
