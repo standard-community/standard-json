@@ -43,12 +43,14 @@ const jsonSchema = await toJsonSchema(schema);
 
 List of supported validators -
 
-| Vendor  | Version |
+| Vendor  | Supported |
 | ------- | ------- |
-| Zod     | 3.24.0+ |
-| Valibot | v1.0+    |
-| ArkType | v2.0+    |
-| Effect Schema | v3.13.0+    |
+| Zod     | ✅ |
+| Valibot | ✅    |
+| ArkType | ✅    |
+| Effect Schema | ✅    |
+
+You can check the compatibility versions at [standardschema.dev](https://standardschema.dev/)
 
 ## Credit
 
