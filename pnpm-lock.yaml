@@ -7,10 +7,29 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@valibot/to-json-schema':
+        specifier: ^1.0.0-rc.0
+        version: 1.0.0-rc.0(valibot@1.0.0-rc.4(typescript@5.8.2))
+      effect:
+        specifier: ^3.13.10
+        version: 3.13.10
+      zod-to-json-schema:
+        specifier: ^3.24.1
+        version: 3.24.3(zod@3.24.2)
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.9.4
         version: 1.9.4
+      '@standard-schema/spec':
+        specifier: ^1.0.0
+        version: 1.0.0
+      '@types/json-schema':
+        specifier: ^7.0.15
+        version: 7.0.15
+      arktype:
+        specifier: ^2.0.4
+        version: 2.1.9
       czg:
         specifier: ^1.11.1
         version: 1.11.1
@@ -23,34 +42,12 @@ importers:
       nano-staged:
         specifier: ^0.8.0
         version: 0.8.0
-      typescript:
-        specifier: ^5.8.2
-        version: 5.8.2
-
-  packages/core:
-    dependencies:
-      '@valibot/to-json-schema':
-        specifier: ^1.0.0-rc.0
-        version: 1.0.0-rc.0(valibot@1.0.0-rc.4(typescript@5.8.2))
-      effect:
-        specifier: ^3.13.10
-        version: 3.13.10
-      zod-to-json-schema:
-        specifier: ^3.24.1
-        version: 3.24.3(zod@3.24.2)
-    devDependencies:
-      '@standard-schema/spec':
-        specifier: ^1.0.0
-        version: 1.0.0
-      '@types/json-schema':
-        specifier: ^7.0.15
-        version: 7.0.15
-      arktype:
-        specifier: ^2.0.4
-        version: 2.1.9
       pkgroll:
         specifier: ^2.5.1
         version: 2.11.2(typescript@5.8.2)
+      typescript:
+        specifier: ^5.8.2
+        version: 5.8.2
       valibot:
         specifier: ^1.0.0-rc.4
         version: 1.0.0-rc.4(typescript@5.8.2)
