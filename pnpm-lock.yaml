@@ -7,29 +7,10 @@ settings:
 importers:
 
   .:
-    dependencies:
-      '@valibot/to-json-schema':
-        specifier: ^1.0.0-rc.0
-        version: 1.0.0-rc.0(valibot@1.0.0-rc.4(typescript@5.8.2))
-      effect:
-        specifier: ^3.13.10
-        version: 3.13.10
-      zod-to-json-schema:
-        specifier: ^3.24.1
-        version: 3.24.3(zod@3.24.2)
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.9.4
         version: 1.9.4
-      '@standard-schema/spec':
-        specifier: ^1.0.0
-        version: 1.0.0
-      '@types/json-schema':
-        specifier: ^7.0.15
-        version: 7.0.15
-      arktype:
-        specifier: ^2.0.4
-        version: 2.1.9
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -39,18 +20,40 @@ importers:
       nano-staged:
         specifier: ^0.8.0
         version: 0.8.0
-      pkgroll:
-        specifier: ^2.5.1
-        version: 2.11.2(typescript@5.8.2)
       typescript:
         specifier: ^5.8.2
         version: 5.8.2
-      valibot:
-        specifier: ^1.0.0-rc.4
-        version: 1.0.0-rc.4(typescript@5.8.2)
       vitest:
         specifier: ^3.0.8
         version: 3.0.8
+
+  packages/core:
+    dependencies:
+      '@valibot/to-json-schema':
+        specifier: ^1.0.0-rc.0
+        version: 1.0.0-rc.0(valibot@1.0.0-rc.4(typescript@5.8.2))
+      effect:
+        specifier: ^3.13.10
+        version: 3.13.11
+      zod-to-json-schema:
+        specifier: ^3.24.1
+        version: 3.24.4(zod@3.24.2)
+    devDependencies:
+      '@standard-schema/spec':
+        specifier: ^1.0.0
+        version: 1.0.0
+      '@types/json-schema':
+        specifier: ^7.0.15
+        version: 7.0.15
+      arktype:
+        specifier: ^2.0.4
+        version: 2.1.9
+      pkgroll:
+        specifier: ^2.5.1
+        version: 2.11.2(typescript@5.8.2)
+      valibot:
+        specifier: ^1.0.0-rc.4
+        version: 1.0.0-rc.4(typescript@5.8.2)
       zod:
         specifier: ^3.24.2
         version: 3.24.2
@@ -686,8 +689,8 @@ packages:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
     engines: {node: '>=0.10.0'}
 
-  effect@3.13.10:
-    resolution: {integrity: sha512-f2n51BJJ25G9rb/C1ClkgsVFXH6YTkCHmd6ebpu6cAkwQxfhnfbkVWKgkn3nyW9YnC9z4K8bGohRYaZ+HyWtLg==}
+  effect@3.13.11:
+    resolution: {integrity: sha512-SOUwX2E1ciNDPZDbSfx+YszGfIIg90sluKyx0BB6VwLIt8+NOA6tEAR3N2XI9MEOWfO/EpWzbARLnXI2hXcvaQ==}
 
   es-module-lexer@1.6.0:
     resolution: {integrity: sha512-qqnD1yMU6tk/jnaMosogGySTZP8YtUgAffA9nMN+E/rjxcfRQ6IEk7IiozUjgxKoFHBGjTLnrHB/YC45r/59EQ==}
@@ -1003,8 +1006,8 @@ packages:
     engines: {node: '>=8'}
     hasBin: true
 
-  zod-to-json-schema@3.24.3:
-    resolution: {integrity: sha512-HIAfWdYIt1sssHfYZFCXp4rU1w2r8hVVXYIlmoa0r0gABLs5di3RCqPU5DDROogVz1pAdYBaz7HK5n9pSUNs3A==}
+  zod-to-json-schema@3.24.4:
+    resolution: {integrity: sha512-0uNlcvgabyrni9Ag8Vghj21drk7+7tp7VTwwR7KxxXXc/3pbXz2PHlDgj3cICahgF1kHm4dExBFj7BXrZJXzig==}
     peerDependencies:
       zod: ^3.24.1
 
@@ -1422,7 +1425,7 @@ snapshots:
 
   deepmerge@4.3.1: {}
 
-  effect@3.13.10:
+  effect@3.13.11:
     dependencies:
       '@standard-schema/spec': 1.0.0
       fast-check: 3.23.2
@@ -1756,7 +1759,7 @@ snapshots:
       siginfo: 2.0.0
       stackback: 0.0.2
 
-  zod-to-json-schema@3.24.3(zod@3.24.2):
+  zod-to-json-schema@3.24.4(zod@3.24.2):
     dependencies:
       zod: 3.24.2
 

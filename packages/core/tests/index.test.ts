@@ -4,7 +4,7 @@ import { Schema } from "effect";
 import { describe, expect, it } from "vitest";
 import * as z from "zod";
 
-import { toJsonSchema } from "../src";
+import { toJsonSchema } from "../src/index.js";
 
 describe("basic", () => {
   it("arktype", async () => {
