@@ -1,6 +1,6 @@
 {
   "name": "@standard-community/standard-json",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "license": "MIT",
   "main": "dist/index.cjs",
@@ -32,15 +32,13 @@
     "url": "https://github.com/standard-community/standard-json/issues"
   },
   "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
+    "import": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "require": {
+      "types": "./dist/index.d.cts",
+      "default": "./dist/index.cjs"
     }
   },
   "peerDependencies": {
