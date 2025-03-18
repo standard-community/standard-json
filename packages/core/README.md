@@ -48,6 +48,7 @@ List of supported validators -
 | Zod     | ✅ |
 | Valibot | ✅ |
 | ArkType | ✅ |
+| Typebox | ✅ (Using [TypeMap](https://github.com/sinclairzx81/typemap) |
 | Effect Schema | 🛠️ |
 
 You can check the compatibility versions at [standardschema.dev](https://standardschema.dev/)
