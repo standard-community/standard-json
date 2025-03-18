@@ -3,10 +3,16 @@ import type { JSONSchema7 } from "json-schema";
 
 export const toJsonSchema = async (
   schema: StandardSchemaV1,
+  options?: Record<string, unknown>,
 ): Promise<JSONSchema7> => {
   const vendor = schema["~standard"].vendor;
 
-  let mod: Promise<{ toJsonSchema: (schema: any) => JSONSchema7 }>;
+  let mod: Promise<{
+    toJsonSchema: (
+      schema: any,
+      options?: Record<string, unknown>,
+    ) => JSONSchema7;
+  }>;
   switch (vendor) {
     case "arktype":
       mod = import("./arktype.js");
@@ -24,5 +30,5 @@ export const toJsonSchema = async (
       throw new Error(`standard-json: Unsupported schema vendor "${vendor}"`);
   }
 
-  return (await mod).toJsonSchema(schema);
+  return (await mod).toJsonSchema(schema, options);
 };
