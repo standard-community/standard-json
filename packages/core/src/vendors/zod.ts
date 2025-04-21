@@ -1,8 +1,15 @@
 import type { JSONSchema7 } from "json-schema";
-import { zodToJsonSchema } from "zod-to-json-schema";
-import type * as z from "zod";
+import type { ZodSchema } from "zod";
+import { tryImport, type ToJsonSchemaFn } from "./index.js";
 
-export const toJsonSchema = (
-  schema: z.ZodType,
-  options?: Record<string, unknown>,
-) => zodToJsonSchema(schema, options) as JSONSchema7;
+export const getToJsonSchemaFn = async (): Promise<ToJsonSchemaFn> => {
+  const { zodToJsonSchema } = await tryImport(
+    import("zod-to-json-schema"),
+    "zod-to-json-schema",
+  );
+  return (schema, options) =>
+    zodToJsonSchema(
+      schema as ZodSchema<unknown>,
+      options as Record<string, unknown>,
+    ) as JSONSchema7;
+};

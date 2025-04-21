@@ -1,8 +1,14 @@
-import type { JSONSchema7 } from "json-schema";
-import { toJsonSchema as vToJsonSchema } from "@valibot/to-json-schema";
-import type { BaseSchema } from "valibot";
+import type { BaseIssue, BaseSchema } from "valibot";
+import { tryImport, type ToJsonSchemaFn } from "./index.js";
 
-export const toJsonSchema = (
-  schema: BaseSchema<any, any, any>,
-  options?: Record<string, unknown>,
-) => vToJsonSchema(schema, options) as JSONSchema7;
+export const getToJsonSchemaFn = async (): Promise<ToJsonSchemaFn> => {
+  const { toJsonSchema } = await tryImport(
+    import("@valibot/to-json-schema"),
+    "@valibot/to-json-schema",
+  );
+  return (schema, options) =>
+    toJsonSchema(
+      schema as BaseSchema<unknown, unknown, BaseIssue<unknown>>,
+      options as Record<string, unknown>,
+    );
+};
