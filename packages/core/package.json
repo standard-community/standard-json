@@ -44,7 +44,8 @@
   "peerDependencies": {
     "@valibot/to-json-schema": "^1.0.0-rc.0",
     "effect": "^3.13.10",
-    "zod-to-json-schema": "^3.24.1"
+    "zod-to-json-schema": "^3.24.1",
+    "zod": "^3.25.41"
   },
   "peerDependenciesMeta": {
     "@valibot/to-json-schema": {
@@ -55,6 +56,9 @@
     },
     "zod-to-json-schema": {
       "optional": true
+    },
+    "zod": {
+      "optional": true
     }
   },
   "devDependencies": {
@@ -63,6 +67,6 @@
     "arktype": "^2.0.4",
     "pkgroll": "^2.5.1",
     "valibot": "^1.0.0-rc.4",
-    "zod": "^3.24.2"
+    "zod": "^3.25.41"
   }
 }

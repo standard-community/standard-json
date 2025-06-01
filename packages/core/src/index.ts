@@ -10,5 +10,5 @@ export const toJsonSchema = async (
   schema: StandardSchemaV1,
 ): Promise<JSONSchema7> =>
   getToJsonSchemaFn(schema["~standard"].vendor).then(async (toJsonSchema) =>
-    toJsonSchema(schema),
+    await toJsonSchema(schema),
   );
