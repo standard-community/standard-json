@@ -1,42 +1,22 @@
-import type { JSONSchema7 } from "json-schema";
-
-export type ToJsonSchemaFn = (
-  schema: unknown,
-  options?: unknown,
-) => JSONSchema7 | Promise<JSONSchema7>;
-
-export const tryImport = async <T>(
-  result: Promise<T>,
-  name: string,
-): Promise<Awaited<T>> => {
-  try {
-    return await result;
-  } catch {
-    throw new Error(`standard-json: Missing dependencies "${name}".`);
-  }
-};
+import getArktypeToJsonSchemaFn from "./arktype.js"
+import getEffectToJsonSchemaFn from "./effect.js"
+import getValibotToJsonSchemaFn from "./valibot.js"
+import getZodToJsonSchemaFn from "./zod.js";
+import { errorMessageWrapper, type ToJsonSchemaFn } from "./utils.js";
 
 export const getToJsonSchemaFn = async (
   vendor: string,
 ): Promise<ToJsonSchemaFn> => {
   switch (vendor) {
     case "arktype":
-      return import("./arktype.js").then(async ({ getToJsonSchemaFn }) =>
-        getToJsonSchemaFn(),
-      );
+      return getArktypeToJsonSchemaFn()
     case "effect":
-      return import("./effect.js").then(async ({ getToJsonSchemaFn }) =>
-        getToJsonSchemaFn(),
-      );
+      return getEffectToJsonSchemaFn()
     case "valibot":
-      return import("./valibot.js").then(async ({ getToJsonSchemaFn }) =>
-        getToJsonSchemaFn(),
-      );
+      return getValibotToJsonSchemaFn()
     case "zod":
-      return import("./zod.js").then(async ({ getToJsonSchemaFn }) =>
-        getToJsonSchemaFn(),
-      );
+      return getZodToJsonSchemaFn()
     default:
-      throw new Error(`standard-json: Unsupported schema vendor "${vendor}"`);
+      throw new Error(errorMessageWrapper(`Unsupported schema vendor "${vendor}"`));
   }
 };

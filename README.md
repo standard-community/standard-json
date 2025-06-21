@@ -52,7 +52,3 @@ List of supported validators -
 | Effect Schema | 🛠️ |
 
 You can check the compatibility versions at [standardschema.dev](https://standardschema.dev/)
-
-## Credit
-
-- This project is inspired by the work of [kwaa](https://github.com/kwaa) and their [xsschema](https://xsai.js.org/docs/packages/top-level/xsschema) package.

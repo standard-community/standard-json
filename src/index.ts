@@ -6,9 +6,9 @@ import { getToJsonSchemaFn } from "./vendors/index.js";
 /**
  * Converts a Standard Schema to a JSON schema.
  */
-export const toJsonSchema = async (
+export const toJsonSchema = (
   schema: StandardSchemaV1,
 ): Promise<JSONSchema7> =>
-  getToJsonSchemaFn(schema["~standard"].vendor).then(async (toJsonSchema) =>
+  getToJsonSchemaFn(schema["~standard"].vendor).then((toJsonSchema) =>
     toJsonSchema(schema),
   );
