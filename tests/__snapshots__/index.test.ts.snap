@@ -2,7 +2,35 @@
 
 exports[`basic > arktype 1`] = `
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "description": "My neat object schema",
+  "properties": {
+    "myString": {
+      "type": "string",
+    },
+    "myUnion": {
+      "anyOf": [
+        {
+          "type": "number",
+        },
+        {
+          "type": "boolean",
+        },
+      ],
+    },
+  },
+  "required": [
+    "myString",
+    "myUnion",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`basic > effect 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
   "properties": {
     "myString": {
       "type": "string",

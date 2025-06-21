@@ -17,7 +17,7 @@ describe("basic", () => {
     expect(jsonSchema).toMatchSnapshot();
   });
 
-  it.skip("effect", async () => {
+  it("effect", async () => {
     const schema = Schema.Struct({
       myString: Schema.String,
       myUnion: Schema.Union(Schema.Number, Schema.Boolean),
