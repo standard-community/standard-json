@@ -17,7 +17,7 @@ For some specific vendor, install the respective package also -
 
 | Vendor  | Package |
 | ------- | ------- |
-| Zod     | `zod-to-json-schema` |
+| Zod v3  | `zod-to-json-schema` |
 | Valibot | `@valibot/to-json-schema` |
 
 ## Usage

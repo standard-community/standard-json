@@ -83,6 +83,34 @@ exports[`basic > valibot 1`] = `
 
 exports[`basic > zod 1`] = `
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "My neat object schema",
+  "properties": {
+    "myString": {
+      "type": "string",
+    },
+    "myUnion": {
+      "anyOf": [
+        {
+          "type": "number",
+        },
+        {
+          "type": "boolean",
+        },
+      ],
+    },
+  },
+  "required": [
+    "myString",
+    "myUnion",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`basic > zod 2`] = `
+{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "additionalProperties": false,
   "description": "My neat object schema",
@@ -94,6 +122,33 @@ exports[`basic > zod 1`] = `
       "type": [
         "number",
         "boolean",
+      ],
+    },
+  },
+  "required": [
+    "myString",
+    "myUnion",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`basic > zod 3`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "myString": {
+      "type": "string",
+    },
+    "myUnion": {
+      "anyOf": [
+        {
+          "type": "number",
+        },
+        {
+          "type": "boolean",
+        },
       ],
     },
   },
