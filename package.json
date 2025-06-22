@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "pkgroll --minify --clean-dist",
+    "build": "pkgroll --clean-dist",
     "format": "biome check --write .",
     "test": "vitest"
   },
