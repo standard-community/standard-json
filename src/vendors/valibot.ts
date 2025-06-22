@@ -1,5 +1,5 @@
 import type { BaseIssue, BaseSchema } from "valibot";
-import { tryImport, type ToJsonSchemaFn } from "./utils.js";
+import { type ToJsonSchemaFn, tryImport } from "./utils.js";
 
 const getToJsonSchemaFn = async (): Promise<ToJsonSchemaFn> => {
   const { toJsonSchema } = await tryImport(

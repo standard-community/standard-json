@@ -1,6 +1,6 @@
 import type { Schema } from "effect";
 import type { JSONSchema7 } from "json-schema";
-import { tryImport, type ToJsonSchemaFn } from "./utils.js";
+import { type ToJsonSchemaFn, tryImport } from "./utils.js";
 
 const getToJsonSchemaFn = async (): Promise<ToJsonSchemaFn> => {
   const { JSONSchema } = await tryImport(import("effect"), "effect");
