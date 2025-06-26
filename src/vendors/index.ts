@@ -11,9 +11,7 @@ const vendorToFn: Record<string, () => Promise<ToJsonSchemaFn>> = {
   zod: getZodToJsonSchemaFn,
 };
 
-export const getToJsonSchemaFn = async (
-  vendor: string,
-): Promise<ToJsonSchemaFn> => {
+export const getToJsonSchemaFn = (vendor: string): Promise<ToJsonSchemaFn> => {
   const venderConvertor = vendorToFn[vendor];
 
   if (!venderConvertor)
