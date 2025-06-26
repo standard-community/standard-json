@@ -12,12 +12,12 @@ const vendorToFn: Record<string, () => Promise<ToJsonSchemaFn>> = {
 };
 
 export const getToJsonSchemaFn = (vendor: string): Promise<ToJsonSchemaFn> => {
-  const venderConvertor = vendorToFn[vendor];
+  const vendorConverter = vendorToFn[vendor];
 
-  if (!venderConvertor)
+  if (!vendorConverter)
     throw new Error(
       errorMessageWrapper(`Unsupported schema vendor "${vendor}"`),
     );
 
-  return venderConvertor();
+  return vendorConverter();
 };
