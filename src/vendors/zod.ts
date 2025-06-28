@@ -2,8 +2,8 @@ import type { ZodTypeAny } from "zod/v3";
 import type { $ZodType } from "zod/v4/core";
 import { type ToJsonSchemaFn, tryImport } from "./utils.js";
 
-const getToJsonSchemaFn =
-  async (): Promise<ToJsonSchemaFn> => async (schema, options) => {
+export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
+  return async (schema, options) => {
     let handler: ToJsonSchemaFn;
 
     // https://zod.dev/library-authors?id=how-to-support-zod-and-zod-mini-simultaneously#how-to-support-zod-3-and-zod-4-simultaneously
@@ -19,5 +19,4 @@ const getToJsonSchemaFn =
 
     return handler(schema, options);
   };
-
-export default getToJsonSchemaFn;
+}

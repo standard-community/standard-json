@@ -1,23 +1,20 @@
-import getArktypeToJsonSchemaFn from "./arktype.js";
-import getEffectToJsonSchemaFn from "./effect.js";
 import { errorMessageWrapper, type ToJsonSchemaFn } from "./utils.js";
-import getValibotToJsonSchemaFn from "./valibot.js";
-import getZodToJsonSchemaFn from "./zod.js";
 
-const vendorToFn: Record<string, () => Promise<ToJsonSchemaFn>> = {
-  arktype: getArktypeToJsonSchemaFn,
-  effect: getEffectToJsonSchemaFn,
-  valibot: getValibotToJsonSchemaFn,
-  zod: getZodToJsonSchemaFn,
-};
-
-export const getToJsonSchemaFn = (vendor: string): Promise<ToJsonSchemaFn> => {
-  const vendorConverter = vendorToFn[vendor];
-
-  if (!vendorConverter)
-    throw new Error(
-      errorMessageWrapper(`Unsupported schema vendor "${vendor}"`),
-    );
-
-  return vendorConverter();
+export const getToJsonSchemaFn = async (
+  vendor: string,
+): Promise<ToJsonSchemaFn> => {
+  switch (vendor) {
+    case "arktype":
+      return (await import("./arktype.js")).default();
+    case "effect":
+      return (await import("./effect.js")).default();
+    case "valibot":
+      return (await import("./valibot.js")).default();
+    case "zod":
+      return (await import("./zod.js")).default();
+    default:
+      throw new Error(
+        errorMessageWrapper(`Unsupported schema vendor "${vendor}".`),
+      );
+  }
 };
