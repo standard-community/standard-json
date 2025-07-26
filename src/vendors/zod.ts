@@ -1,6 +1,10 @@
 import type { ZodTypeAny } from "zod/v3";
 import type { $ZodType } from "zod/v4/core";
-import { type ToJsonSchemaFn, tryImport } from "./utils.js";
+import {
+  errorMessageWrapper,
+  type ToJsonSchemaFn,
+  tryImport,
+} from "./utils.js";
 
 export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
   return async (schema, options) => {
@@ -12,10 +16,13 @@ export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
         (mod) => mod.toJSONSchema as ToJsonSchemaFn,
       );
     } else {
-      handler = await tryImport(
-        import("zod-to-json-schema"),
-        "zod-to-json-schema",
-      ).then(
+      handler = await (
+        import("zod-to-json-schema")
+      ).catch(() => {
+        throw new Error(
+          errorMessageWrapper('Missing dependencies "zod-to-json-schema".'),
+        );
+      }).then(
         (mod) => mod.zodToJsonSchema as ToJsonSchemaFn,
       );
     }
