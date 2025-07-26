@@ -12,7 +12,10 @@ export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
         (mod) => mod.toJSONSchema as ToJsonSchemaFn,
       );
     } else {
-      handler = await tryImport(import("zod-to-json-schema"), "zod v3").then(
+      handler = await tryImport(
+        import("zod-to-json-schema"),
+        "zod-to-json-schema",
+      ).then(
         (mod) => mod.zodToJsonSchema as ToJsonSchemaFn,
       );
     }
