@@ -27,7 +27,7 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0(typescript@5.8.3)
       zod:
-        specifier: ^3.25.67
+        specifier: ^3.25.0 || ^4.0.0
         version: 3.25.67
       zod-to-json-schema:
         specifier: ^3.24.5

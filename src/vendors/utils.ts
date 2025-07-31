@@ -6,14 +6,3 @@ export type ToJsonSchemaFn = (
 
 export const errorMessageWrapper = (message: string) =>
   `standard-json: ${message}`;
-
-export const tryImport = async <T>(
-  result: Promise<T>,
-  name: string,
-): Promise<Awaited<T>> => {
-  try {
-    return await result;
-  } catch {
-    throw new Error(errorMessageWrapper(`Missing dependencies "${name}".`));
-  }
-};

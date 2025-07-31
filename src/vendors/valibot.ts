@@ -1,9 +1,10 @@
-import { type ToJsonSchemaFn, tryImport } from "./utils.js";
+import { errorMessageWrapper, type ToJsonSchemaFn } from "./utils.js";
 
 export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
-  const { toJsonSchema } = await tryImport(
-    import("@valibot/to-json-schema"),
-    "@valibot/to-json-schema",
-  );
+  const { toJsonSchema } = await import("@valibot/to-json-schema").catch(() => {
+    throw new Error(
+      errorMessageWrapper('Missing dependencies "@valibot/to-json-schema".'),
+    );
+  });
   return toJsonSchema as ToJsonSchemaFn;
 }
