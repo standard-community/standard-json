@@ -1,6 +1,6 @@
 {
   "name": "@standard-community/standard-json",
-  "version": "0.3.0-rc.4",
+  "version": "0.3.0-rc.5",
   "type": "module",
   "license": "MIT",
   "main": "dist/index.cjs",
