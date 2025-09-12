@@ -38,7 +38,7 @@ const jsonSchema = await toJsonSchema(schema);
 
 This is useful for -
 
-1. Adding support for Unsupported like Sury
+1. Adding support for Unsupported validation libs, like Sury
 2. Customize the toJSONFunction of a supported lib
 
 ```ts
