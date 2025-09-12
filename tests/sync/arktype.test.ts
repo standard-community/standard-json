@@ -8,8 +8,7 @@ describe("sync check", () => {
   it("arktype", () => {
     // Loading the vendor
     loadVendor("arktype", ((schema, options) =>
-      (schema as Type).toJsonSchema(options)) as ToJsonSchemaFn,
-    );
+      (schema as Type).toJsonSchema(options)) as ToJsonSchemaFn);
 
     const schema = type({
       myString: "string",

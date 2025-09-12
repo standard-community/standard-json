@@ -4,7 +4,7 @@ import { errorMessageWrapper, type ToJsonSchemaFn } from "./utils.js";
 
 export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
   try {
-    const { JSONSchema } = await import("effect")
+    const { JSONSchema } = await import("effect");
     return (schema) =>
       JSONSchema.make(schema as Schema.Schema<unknown>) as JSONSchema7;
   } catch {
