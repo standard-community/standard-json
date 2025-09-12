@@ -6,7 +6,7 @@ import { z } from "zod";
 import { z as z4 } from "zod/v4";
 import { z as zm } from "zod/v4-mini";
 
-import { toJsonSchema } from "../src/index.js";
+import { toJsonSchema } from "~/index.js";
 
 describe("basic", () => {
   it("arktype", async () => {

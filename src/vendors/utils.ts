@@ -6,3 +6,5 @@ export type ToJsonSchemaFn = (
 
 export const errorMessageWrapper = (message: string) =>
   `standard-json: ${message}`;
+
+export const validationMapper = new Map<string, ToJsonSchemaFn>()

@@ -1,20 +1,39 @@
-import { errorMessageWrapper, type ToJsonSchemaFn } from "./utils.js";
+import {
+  errorMessageWrapper,
+  type ToJsonSchemaFn,
+  validationMapper,
+} from "./utils.js";
 
 export const getToJsonSchemaFn = async (
   vendor: string,
 ): Promise<ToJsonSchemaFn> => {
+  const cached = validationMapper.get(vendor);
+  if (cached) {
+    return cached;
+  }
+
+  let vendorFnPromise: Promise<ToJsonSchemaFn>;
+
   switch (vendor) {
     case "arktype":
-      return (await import("./arktype.js")).default();
+      vendorFnPromise = (await import("./arktype.js")).default();
+      break;
     case "effect":
-      return (await import("./effect.js")).default();
+      vendorFnPromise = (await import("./effect.js")).default();
+      break;
     case "valibot":
-      return (await import("./valibot.js")).default();
+      vendorFnPromise = (await import("./valibot.js")).default();
+      break;
     case "zod":
-      return (await import("./zod.js")).default();
+      vendorFnPromise = (await import("./zod.js")).default();
+      break;
     default:
       throw new Error(
         errorMessageWrapper(`Unsupported schema vendor "${vendor}".`),
       );
   }
+
+  const vendorFn = await vendorFnPromise;
+  validationMapper.set(vendor, vendorFn);
+  return vendorFn;
 };
