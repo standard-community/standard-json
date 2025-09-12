@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`sync check > zodv3 1`] = `
+{
+  "__quansync": true,
+  "then": [Function],
+}
+`;
