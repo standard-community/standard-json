@@ -27,8 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/standard-community/standard-json.git",
-    "directory": "packages/core"
+    "url": "git+https://github.com/standard-community/standard-json.git"
   },
   "bugs": {
     "url": "https://github.com/standard-community/standard-json/issues"
