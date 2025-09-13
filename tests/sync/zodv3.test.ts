@@ -17,7 +17,7 @@ describe("sync check", () => {
       })
       .describe("My neat object schema");
 
-    const zod3JsonSchema = toJsonSchema(zod3Schema);
+    const zod3JsonSchema = toJsonSchema.sync(zod3Schema);
     expect(zod3JsonSchema).toMatchSnapshot();
   });
 });

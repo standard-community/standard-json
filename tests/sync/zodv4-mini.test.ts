@@ -15,7 +15,7 @@ describe("sync check", () => {
       myUnion: z.union([z.number(), z.boolean()]),
     });
 
-    const zod4JsonSchema = toJsonSchema(zod4Schema);
+    const zod4JsonSchema = toJsonSchema.sync(zod4Schema);
     expect(zod4JsonSchema).toMatchSnapshot();
   });
 });

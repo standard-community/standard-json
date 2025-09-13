@@ -15,7 +15,7 @@ describe("sync check", () => {
       myUnion: "number | boolean",
     }).describe("My neat object schema");
 
-    const jsonSchema = toJsonSchema(schema);
+    const jsonSchema = toJsonSchema.sync(schema);
     expect(jsonSchema).toMatchSnapshot();
   });
 });

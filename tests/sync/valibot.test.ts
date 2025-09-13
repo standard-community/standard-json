@@ -18,7 +18,7 @@ describe("sync check", () => {
       v.description("My neat object schema"),
     );
 
-    const jsonSchema = toJsonSchema(schema);
+    const jsonSchema = toJsonSchema.sync(schema);
     expect(jsonSchema).toMatchSnapshot();
   });
 });

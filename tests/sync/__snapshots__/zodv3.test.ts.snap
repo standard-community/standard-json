@@ -2,7 +2,24 @@
 
 exports[`sync check > zodv3 1`] = `
 {
-  "__quansync": true,
-  "then": [Function],
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "description": "My neat object schema",
+  "properties": {
+    "myString": {
+      "type": "string",
+    },
+    "myUnion": {
+      "type": [
+        "number",
+        "boolean",
+      ],
+    },
+  },
+  "required": [
+    "myString",
+    "myUnion",
+  ],
+  "type": "object",
 }
 `;
