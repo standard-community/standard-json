@@ -33,13 +33,55 @@
     "url": "https://github.com/standard-community/standard-json/issues"
   },
   "exports": {
-    "import": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
-    "require": {
-      "types": "./dist/index.d.cts",
-      "default": "./dist/index.cjs"
+    "./arktype": {
+      "import": {
+        "types": "./dist/vendors/arktype.d.ts",
+        "default": "./dist/vendors/arktype.js"
+      },
+      "require": {
+        "types": "./dist/vendors/arktype.d.cts",
+        "default": "./dist/vendors/arktype.cjs"
+      }
+    },
+    "./effect": {
+      "import": {
+        "types": "./dist/vendors/effect.d.ts",
+        "default": "./dist/vendors/effect.js"
+      },
+      "require": {
+        "types": "./dist/vendors/effect.d.cts",
+        "default": "./dist/vendors/effect.cjs"
+      }
+    },
+    "./valibot": {
+      "import": {
+        "types": "./dist/vendors/valibot.d.ts",
+        "default": "./dist/vendors/valibot.js"
+      },
+      "require": {
+        "types": "./dist/vendors/valibot.d.cts",
+        "default": "./dist/vendors/valibot.cjs"
+      }
+    },
+    "./zod": {
+      "import": {
+        "types": "./dist/vendors/zod.d.ts",
+        "default": "./dist/vendors/zod.js"
+      },
+      "require": {
+        "types": "./dist/vendors/zod.d.cts",
+        "default": "./dist/vendors/zod.cjs"
+      }
     }
   },
   "peerDependencies": {

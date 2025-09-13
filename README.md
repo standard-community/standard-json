@@ -38,14 +38,13 @@ const jsonSchema = await toJsonSchema(schema);
 
 This is useful for -
 
-1. Adding support for Unsupported validation libs, like Sury
-2. Customize the toJSONFunction of a supported lib
+#### Adding support for Unsupported validation libs
 
 ```ts
 import { toJsonSchema, loadVendor } from "@standard-community/standard-json";
 import { convertSchemaToJson } from "your-validation-lib";
 
-// The lib should support Standard Schema
+// The lib should support Standard Schema, like Sury
 // as we use 'schema["~standard"].vendor' to get the vendor name
 // Eg. loadVendor(zod["~standard"].vendor, convertorFunction)
 loadVendor("validation-lib-name", convertSchemaToJson)
@@ -57,4 +56,22 @@ const schema = {
 
 // Convert it to JSON Schema
 const jsonSchema = toJsonSchema(schema);
+```
+
+#### Customize the toJSONFunction of a supported lib
+
+```ts
+import { toJsonSchema, loadVendor } from "@standard-community/standard-json";
+import zodHandler from "@standard-community/standard-json/zod";
+
+// Or pass a custom implmentation
+loadVendor("zod", zodHandler())
+
+// Define your validation schema
+const schema = {
+    // ...
+};
+
+// Convert it to JSON Schema
+const jsonSchema = await toJsonSchema(schema);
 ```
