@@ -12,7 +12,7 @@ export const getToJsonSchemaFn = async (
     return cached;
   }
 
-  let vendorFnPromise: Promise<ToJsonSchemaFn>;
+  let vendorFnPromise: ToJsonSchemaFn | Promise<ToJsonSchemaFn>;
 
   switch (vendor) {
     case "arktype":
