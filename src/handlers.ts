@@ -2,8 +2,8 @@ import type { StandardSchemaV1 } from "@standard-schema/spec";
 import { quansync } from "quansync";
 import { getToJsonSchemaFn } from "./vendors/index.js";
 import {
-  errorMessageWrapper,
   type ToJsonSchemaFn,
+  UnsupportedVendorError,
   validationMapper,
 } from "./vendors/utils.js";
 
@@ -12,14 +12,11 @@ import {
  */
 export const toJsonSchema = quansync({
   sync: (schema: StandardSchemaV1, options?: Record<string, unknown>) => {
-    const fn = validationMapper.get(schema["~standard"].vendor);
+    const vendor = schema["~standard"].vendor;
+    const fn = validationMapper.get(vendor);
 
     if (!fn) {
-      throw new Error(
-        errorMessageWrapper(
-          `Unsupported schema vendor "${schema["~standard"].vendor}".`,
-        ),
-      );
+      throw new UnsupportedVendorError(vendor);
     }
 
     return fn(schema, options);

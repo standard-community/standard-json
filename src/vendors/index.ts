@@ -1,6 +1,6 @@
 import {
-  errorMessageWrapper,
   type ToJsonSchemaFn,
+  UnsupportedVendorError,
   validationMapper,
 } from "./utils.js";
 
@@ -28,9 +28,7 @@ export const getToJsonSchemaFn = async (
       vendorFnPromise = (await import("./zod.js")).default();
       break;
     default:
-      throw new Error(
-        errorMessageWrapper(`Unsupported schema vendor "${vendor}".`),
-      );
+      throw new UnsupportedVendorError(vendor);
   }
 
   const vendorFn = await vendorFnPromise;
