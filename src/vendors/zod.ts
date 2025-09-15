@@ -11,19 +11,15 @@ export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
     // https://zod.dev/library-authors?id=how-to-support-zod-and-zod-mini-simultaneously#how-to-support-zod-3-and-zod-4-simultaneously
     if ("_zod" in (schema as $ZodType | ZodTypeAny)) {
       try {
-        handler = await import("zod/v4/core")
-          .catch(() => {
-            throw zodv4Error;
-          })
-          .then((mod) => mod.toJSONSchema as ToJsonSchemaFn);
+        const mod = await import("zod/v4/core")
+        handler = mod.toJSONSchema as ToJsonSchemaFn;
       } catch {
         throw zodv4Error;
       }
     } else {
       try {
-        handler = await import("zod-to-json-schema").then(
-          (mod) => mod.zodToJsonSchema as ToJsonSchemaFn,
-        );
+        const mod = await import("zod-to-json-schema")
+        handler = mod.zodToJsonSchema as ToJsonSchemaFn;
       } catch {
         throw new MissingDependencyError("zod-to-json-schema");
       }
