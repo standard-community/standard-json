@@ -1,5 +1,7 @@
 import { type } from "arktype";
 import { Schema } from "effect";
+import Type from "typebox";
+import { Compile } from "typebox/compile";
 import * as v from "valibot";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
@@ -26,6 +28,20 @@ describe("basic", () => {
     });
 
     const jsonSchema = await toJsonSchema(Schema.standardSchemaV1(schema));
+    expect(jsonSchema).toMatchSnapshot();
+  });
+
+  it("typebox", async () => {
+    const schema = Type.Object(
+      {
+        myString: Type.String(),
+        myUnion: Type.Union([Type.Number(), Type.Boolean()]),
+      },
+      { description: "My neat object schema" },
+    );
+
+    const jsonSchema = await toJsonSchema(Compile(schema));
+
     expect(jsonSchema).toMatchSnapshot();
   });
 

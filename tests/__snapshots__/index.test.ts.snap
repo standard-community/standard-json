@@ -54,6 +54,32 @@ exports[`basic > effect 1`] = `
 }
 `;
 
+exports[`basic > typebox 1`] = `
+{
+  "description": "My neat object schema",
+  "properties": {
+    "myString": {
+      "type": "string",
+    },
+    "myUnion": {
+      "anyOf": [
+        {
+          "type": "number",
+        },
+        {
+          "type": "boolean",
+        },
+      ],
+    },
+  },
+  "required": [
+    "myString",
+    "myUnion",
+  ],
+  "type": "object",
+}
+`;
+
 exports[`basic > valibot 1`] = `
 {
   "$schema": "http://json-schema.org/draft-07/schema#",

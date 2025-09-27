@@ -21,6 +21,9 @@ export const getToJsonSchemaFn = async (
     case "effect":
       vendorFnPromise = (await import("./effect.js")).default();
       break;
+    case "typebox":
+      vendorFnPromise = (await import("./typebox.js")).default();
+      break;
     case "valibot":
       vendorFnPromise = (await import("./valibot.js")).default();
       break;

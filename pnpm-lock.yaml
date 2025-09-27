@@ -26,6 +26,9 @@ importers:
       quansync:
         specifier: ^0.2.11
         version: 0.2.11
+      typebox:
+        specifier: ^1.0.17
+        version: 1.0.17
       valibot:
         specifier: ^1.1.0
         version: 1.1.0(typescript@5.8.3)
@@ -763,6 +766,9 @@ packages:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
 
+  typebox@1.0.17:
+    resolution: {integrity: sha512-8ymzEBwFaubUQGS7Mn+amGYtCERCeWNvdPNtbBjR3dQaDmnOEHSSPDLv4L7qGF9dQtBQek/EV0evs2vg62Cs2Q==}
+
   typescript@5.8.3:
     resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
     engines: {node: '>=14.17'}
@@ -1447,6 +1453,8 @@ snapshots:
   to-regex-range@5.0.1:
     dependencies:
       is-number: 7.0.0
+
+  typebox@1.0.17: {}
 
   typescript@5.8.3: {}
 
