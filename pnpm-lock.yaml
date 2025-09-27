@@ -26,6 +26,9 @@ importers:
       quansync:
         specifier: ^0.2.11
         version: 0.2.11
+      sury:
+        specifier: ^10.0.0
+        version: 10.0.4
       typebox:
         specifier: ^1.0.17
         version: 1.0.17
@@ -740,6 +743,14 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
+  sury@10.0.4:
+    resolution: {integrity: sha512-dWKqOv+6D4AwGCjeKyaWr157RVBtvnPUp1I6RxReYD1dYuBl4k6oUd/t5INh1mBhUuAEC9SP+rZmIunCyNjXzQ==}
+    peerDependencies:
+      rescript: 11.x
+    peerDependenciesMeta:
+      rescript:
+        optional: true
+
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
 
@@ -1434,6 +1445,8 @@ snapshots:
       js-tokens: 9.0.1
 
   supports-preserve-symlinks-flag@1.0.0: {}
+
+  sury@10.0.4: {}
 
   tinybench@2.9.0: {}
 

@@ -1,5 +1,6 @@
 import { type } from "arktype";
 import { Schema } from "effect";
+import S from "sury";
 import Type from "typebox";
 import { Compile } from "typebox/compile";
 import * as v from "valibot";
@@ -42,6 +43,16 @@ describe("basic", () => {
 
     const jsonSchema = await toJsonSchema(Compile(schema));
 
+    expect(jsonSchema).toMatchSnapshot();
+  });
+
+  it("sury", async () => {
+    const schema = S.schema({
+      myString: S.string,
+      myUnion: S.union([S.number, S.boolean]),
+    }).with(S.meta, { description: "My neat object schema" });
+
+    const jsonSchema = await toJsonSchema(schema);
     expect(jsonSchema).toMatchSnapshot();
   });
 
