@@ -42,6 +42,9 @@
       "default": "./dist/index.cjs"
     }
   },
+  "dependencies": {
+    "quansync": "^0.2.11"
+  },
   "peerDependencies": {
     "@standard-schema/spec": "^1.0.0",
     "@types/json-schema": "^7.0.15",
@@ -49,7 +52,6 @@
     "arktype": "^2.1.20",
     "effect": "^3.16.8",
     "typebox": "^1.0.17",
-    "quansync": "^0.2.11",
     "sury": "^10.0.0",
     "valibot": "^1.1.0",
     "zod": "^3.25.0 || ^4.0.0",
