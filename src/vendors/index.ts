@@ -4,6 +4,16 @@ import {
   validationMapper,
 } from "./utils.js";
 
+/** The vendors with a handler of their own, loaded on first use. */
+export const builtInVendors: ReadonlySet<string> = new Set([
+  "arktype",
+  "effect",
+  "sury",
+  "typebox",
+  "valibot",
+  "zod",
+]);
+
 export const getToJsonSchemaFn = async (
   vendor: string,
 ): Promise<ToJsonSchemaFn> => {

@@ -1,7 +1,8 @@
 import type { StandardSchemaV1 } from "@standard-schema/spec";
 import { quansync } from "quansync";
-import { getToJsonSchemaFn } from "./vendors/index.js";
+import { builtInVendors, getToJsonSchemaFn } from "./vendors/index.js";
 import {
+  fromStandardJsonSchema,
   type ToJsonSchemaFn,
   UnsupportedVendorError,
   validationMapper,
@@ -25,6 +26,16 @@ const isTypeBoxValidator = (schema: object): schema is TypeBoxValidator =>
 const vendorOf = (schema: StandardSchemaV1 | TypeBoxValidator) =>
   isTypeBoxValidator(schema) ? "typebox" : schema["~standard"].vendor;
 
+// A schema from a vendor with no handler, built in or registered, converts
+// through the Standard JSON Schema it carries, when it carries one. A
+// built-in vendor never takes that route, so the sync entry answers the same
+// before and after the async one has loaded the handler.
+const ownConverter = (
+  vendor: string,
+  schema: StandardSchemaV1 | TypeBoxValidator,
+): ToJsonSchemaFn | null =>
+  builtInVendors.has(vendor) ? null : fromStandardJsonSchema(schema);
+
 /**
  * Converts a Standard Schema to a JSON schema.
  */
@@ -34,7 +45,7 @@ export const toJsonSchema = quansync({
     options?: Record<string, unknown>,
   ) => {
     const vendor = vendorOf(schema);
-    const fn = validationMapper.get(vendor);
+    const fn = validationMapper.get(vendor) ?? ownConverter(vendor, schema);
 
     if (!fn) {
       throw new UnsupportedVendorError(vendor);
@@ -46,7 +57,11 @@ export const toJsonSchema = quansync({
     schema: StandardSchemaV1 | TypeBoxValidator,
     options?: Record<string, unknown>,
   ) => {
-    const fn = await getToJsonSchemaFn(vendorOf(schema));
+    const vendor = vendorOf(schema);
+    const fn =
+      validationMapper.get(vendor) ??
+      ownConverter(vendor, schema) ??
+      (await getToJsonSchemaFn(vendor));
     return fn(schema, options);
   },
 });
