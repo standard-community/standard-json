@@ -1,4 +1,10 @@
 # Changelog
+## 0.3.7
+
+### Documentation 📚
+
+- Add Craft pull request guidance by @MathurAditya724 in [#16](https://github.com/standard-community/standard-json/pull/16)
+
 ## 0.3.6
 
 ### New Features ✨
