@@ -34,6 +34,17 @@ const schema = {
 const jsonSchema = await toJsonSchema(schema);
 ```
 
+### Input or output
+
+A schema that transforms or defaults its input accepts something different from what it outputs. Pass `io` to choose which of the two is converted:
+
+```ts
+const inputSchema = await toJsonSchema(schema, { io: "input" });
+const outputSchema = await toJsonSchema(schema, { io: "output" });
+```
+
+Without `io`, each vendor converts the side it does by default. A vendor's own option for it, like `typeMode` for Valibot, still wins.
+
 ### Sync Usage
 
 This is useful for -

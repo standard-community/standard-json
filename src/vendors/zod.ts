@@ -1,6 +1,6 @@
 import type { ZodTypeAny } from "zod/v3";
 import type { $ZodType } from "zod/v4/core";
-import { MissingDependencyError, type ToJsonSchemaFn } from "./utils.js";
+import { ioOf, MissingDependencyError, type ToJsonSchemaFn } from "./utils.js";
 
 const zodv4Error = new MissingDependencyError("zod v4");
 
@@ -25,6 +25,13 @@ export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
       }
     }
 
-    return handler(schema, options);
+    // `zod` 4 takes `io` itself; `zod-to-json-schema` picks a pipe's side.
+    const io = ioOf(options);
+    return handler(schema, {
+      ...(io && !("_zod" in (schema as $ZodType | ZodTypeAny))
+        ? { pipeStrategy: io }
+        : {}),
+      ...options,
+    });
   };
 }

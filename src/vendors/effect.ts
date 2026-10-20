@@ -1,12 +1,21 @@
 import type { Schema } from "effect";
 import type { JSONSchema7 } from "json-schema";
-import { MissingDependencyError, type ToJsonSchemaFn } from "./utils.js";
+import { ioOf, MissingDependencyError, type ToJsonSchemaFn } from "./utils.js";
 
 export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
   try {
-    const { JSONSchema } = await import("effect");
-    return (schema) =>
-      JSONSchema.make(schema as Schema.Schema<unknown>) as JSONSchema7;
+    const effect = await import("effect");
+    return (schema, options) => {
+      const io = ioOf(options);
+      const side = schema as Schema.Schema<unknown>;
+      return effect.JSONSchema.make(
+        io === "input"
+          ? effect.Schema.encodedSchema(side)
+          : io === "output"
+            ? effect.Schema.typeSchema(side)
+            : side,
+      ) as JSONSchema7;
+    };
   } catch {
     throw new MissingDependencyError("effect");
   }
