@@ -1,7 +1,7 @@
 import type { JSONSchema7 } from "json-schema";
 import type { ZodTypeAny } from "zod/v3";
 import type { $ZodType } from "zod/v4/core";
-import { MissingDependencyError, type ToJsonSchemaFn } from "./utils.js";
+import { ioOf, MissingDependencyError, type ToJsonSchemaFn } from "./utils.js";
 
 const importIfInstalled = async <T>(load: () => Promise<T>) => {
   try {
@@ -32,9 +32,11 @@ export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
     if (!zodToJsonSchema) {
       throw new MissingDependencyError("zod-to-json-schema");
     }
-    return zodToJsonSchema.zodToJsonSchema(
-      schema as ZodTypeAny,
-      options,
-    ) as JSONSchema7;
+    // `zod` 4 takes `io` itself; `zod-to-json-schema` picks a pipe's side.
+    const io = ioOf(options);
+    return zodToJsonSchema.zodToJsonSchema(schema as ZodTypeAny, {
+      ...(io ? { pipeStrategy: io } : {}),
+      ...options,
+    }) as JSONSchema7;
   };
 }

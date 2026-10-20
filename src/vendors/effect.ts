@@ -1,6 +1,6 @@
 import type { Schema } from "effect";
 import type { JSONSchema7 } from "json-schema";
-import { MissingDependencyError, type ToJsonSchemaFn } from "./utils.js";
+import { ioOf, MissingDependencyError, type ToJsonSchemaFn } from "./utils.js";
 
 type JsonSchemaDocument = {
   definitions: Record<string, JSONSchema7>;
@@ -26,8 +26,17 @@ export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
     // `effect` 4 replaced the `JSONSchema` module with `JsonSchema`.
     if ("JSONSchema" in effect) {
       const { JSONSchema } = effect;
-      return (schema) =>
-        JSONSchema.make(schema as Schema.Schema<unknown>) as JSONSchema7;
+      return (schema, options) => {
+        const io = ioOf(options);
+        const side = schema as Schema.Schema<unknown>;
+        return JSONSchema.make(
+          io === "input"
+            ? effect.Schema.encodedSchema(side)
+            : io === "output"
+              ? effect.Schema.typeSchema(side)
+              : side,
+        ) as JSONSchema7;
+      };
     }
 
     const { JsonSchema, Schema } = effect as unknown as Effect4;
