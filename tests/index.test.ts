@@ -22,6 +22,18 @@ describe("basic", () => {
     expect(jsonSchema).toMatchSnapshot();
   });
 
+  it("arktype with a morph", async () => {
+    const schema = type({ quantity: type("string").pipe(Number) });
+
+    const jsonSchema = await toJsonSchema(schema);
+    expect(jsonSchema).toEqual({
+      $schema: "https://json-schema.org/draft/2020-12/schema",
+      properties: { quantity: { type: "string" } },
+      required: ["quantity"],
+      type: "object",
+    });
+  });
+
   it("effect", async () => {
     const schema = Schema.Struct({
       myString: Schema.String,

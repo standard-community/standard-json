@@ -4,5 +4,7 @@ import type { ToJsonSchemaFn } from "./utils.js";
 
 export default function getToJsonSchemaFn(): ToJsonSchemaFn {
   return (schema, options) =>
-    (schema as Type).toJsonSchema(options) as JSONSchema7;
+    // `arktype` can't describe what a morph outputs, so a schema with one is
+    // written as the input it accepts, which is all a schema without one has.
+    (schema as Type).in.toJsonSchema(options) as JSONSchema7;
 }
