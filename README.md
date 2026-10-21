@@ -34,6 +34,8 @@ const schema = {
 const jsonSchema = await toJsonSchema(schema);
 ```
 
+A schema from a library that is not on the built-in list converts as well when it carries [Standard JSON Schema](https://standardschema.dev/json-schema), the `jsonSchema` member of `~standard`: `toJsonSchema` calls its `input()` with the `target` from the options (`draft-2020-12` when none is given). A handler registered with `loadVendor` still takes precedence.
+
 ### Sync Usage
 
 This is useful for -
