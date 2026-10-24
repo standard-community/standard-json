@@ -81,6 +81,20 @@ describe("basic", () => {
     expect(jsonSchema).toMatchSnapshot();
   });
 
+  it("valibot with a transform", async () => {
+    const schema = v.object({
+      quantity: v.pipe(v.string(), v.transform(Number)),
+    });
+
+    const jsonSchema = await toJsonSchema(schema);
+    expect(jsonSchema).toEqual({
+      $schema: "http://json-schema.org/draft-07/schema#",
+      properties: { quantity: { type: "string" } },
+      required: ["quantity"],
+      type: "object",
+    });
+  });
+
   it("zod", async () => {
     const zod4Schema = z4
       .object({
