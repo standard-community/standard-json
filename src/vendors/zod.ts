@@ -1,30 +1,40 @@
+import type { JSONSchema7 } from "json-schema";
 import type { ZodTypeAny } from "zod/v3";
 import type { $ZodType } from "zod/v4/core";
 import { MissingDependencyError, type ToJsonSchemaFn } from "./utils.js";
 
-const zodv4Error = new MissingDependencyError("zod v4");
+const importIfInstalled = async <T>(load: () => Promise<T>) => {
+  try {
+    return await load();
+  } catch {
+    return undefined;
+  }
+};
 
 export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
-  return async (schema, options) => {
-    let handler: ToJsonSchemaFn;
+  // Both converters are imported up front, so that `toJsonSchema.sync` can use
+  // the handler once it's loaded. A missing one only fails for the schemas
+  // that need it.
+  const [zod4, zodToJsonSchema] = await Promise.all([
+    importIfInstalled(() => import("zod/v4/core")),
+    importIfInstalled(() => import("zod-to-json-schema")),
+  ]);
 
+  return (schema, options) => {
     // https://zod.dev/library-authors?id=how-to-support-zod-and-zod-mini-simultaneously#how-to-support-zod-3-and-zod-4-simultaneously
     if ("_zod" in (schema as $ZodType | ZodTypeAny)) {
-      try {
-        const mod = await import("zod/v4/core")
-        handler = mod.toJSONSchema as ToJsonSchemaFn;
-      } catch {
-        throw zodv4Error;
+      if (!zod4) {
+        throw new MissingDependencyError("zod v4");
       }
-    } else {
-      try {
-        const mod = await import("zod-to-json-schema")
-        handler = mod.zodToJsonSchema as ToJsonSchemaFn;
-      } catch {
-        throw new MissingDependencyError("zod-to-json-schema");
-      }
+      return zod4.toJSONSchema(schema as $ZodType, options) as JSONSchema7;
     }
 
-    return handler(schema, options);
+    if (!zodToJsonSchema) {
+      throw new MissingDependencyError("zod-to-json-schema");
+    }
+    return zodToJsonSchema.zodToJsonSchema(
+      schema as ZodTypeAny,
+      options,
+    ) as JSONSchema7;
   };
 }

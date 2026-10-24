@@ -124,4 +124,15 @@ describe("basic", () => {
     const zodMiniJsonSchema = await toJsonSchema(zodMiniSchema);
     expect(zodMiniJsonSchema).toMatchSnapshot();
   });
+
+  it("zod synchronously once it's loaded", async () => {
+    const zod3Schema = z.object({ myString: z.string() });
+    const zod4Schema = z4.object({ myString: z4.string() });
+
+    const zod3JsonSchema = await toJsonSchema(zod3Schema);
+    const zod4JsonSchema = await toJsonSchema(zod4Schema);
+
+    expect(toJsonSchema.sync(zod3Schema)).toEqual(zod3JsonSchema);
+    expect(toJsonSchema.sync(zod4Schema)).toEqual(zod4JsonSchema);
+  });
 });
