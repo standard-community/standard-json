@@ -34,7 +34,7 @@ importers:
         specifier: ^0.2.11
         version: 0.2.11
       sury:
-        specifier: ^10.0.0
+        specifier: ^10.0.0 || ^11.0.0
         version: 10.0.4
       typebox:
         specifier: ^1.0.17
@@ -58,6 +58,9 @@ importers:
       pkgroll:
         specifier: ^2.28.1
         version: 2.28.1(typescript@5.8.3)(vite@6.4.3(@types/node@24.3.1)(yaml@2.9.0))
+      sury-11:
+        specifier: npm:sury@^11.0.0
+        version: sury@11.0.0
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -972,6 +975,14 @@ packages:
       rescript:
         optional: true
 
+  sury@11.0.0:
+    resolution: {integrity: sha512-ixo9P04kr1VB15m+9OX1llkGYityBl5z79XBZqU4hIUjixbdoaoK92wO25DsPqVH8UjyB1rbotf8Gqj0K/uRwA==}
+    peerDependencies:
+      rescript: 12.x
+    peerDependenciesMeta:
+      rescript:
+        optional: true
+
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
 
@@ -1817,6 +1828,8 @@ snapshots:
   supports-preserve-symlinks-flag@1.0.0: {}
 
   sury@10.0.4: {}
+
+  sury@11.0.0: {}
 
   tinybench@2.9.0: {}
 
