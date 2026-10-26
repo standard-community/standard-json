@@ -44,6 +44,12 @@ describe("io", () => {
       { quantity: { type: "string" } },
       { quantity: { type: "number" } },
     ],
+    [
+      "zod 3 with a transform",
+      z.object({ quantity: z.string().transform(Number) }),
+      { quantity: { type: "string" } },
+      { quantity: {} },
+    ],
   ])(
     "converts the input or the output of %s",
     async (_, schema, input, output) => {
@@ -85,6 +91,14 @@ describe("io", () => {
     });
   });
 
+  it("keeps a zod 3 refinement in the output", async () => {
+    const schema = z.object({ name: z.string().refine((name) => name !== "") });
+
+    expect((await convert(schema, { io: "output" })).properties).toEqual({
+      name: { type: "string" },
+    });
+  });
+
   it.each([
     [
       "valibot",
@@ -97,6 +111,11 @@ describe("io", () => {
       "zod 3",
       z.object({ quantity: z.string().pipe(z.coerce.number()) }),
       { pipeStrategy: "input" },
+    ],
+    [
+      "zod 3 with a transform",
+      z.object({ quantity: z.string().transform(Number) }),
+      { effectStrategy: "input" },
     ],
   ])("lets the own option of %s win over io", async (_, schema, own) => {
     expect(await convert(schema, { io: "output", ...own })).toMatchObject({
