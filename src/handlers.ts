@@ -7,12 +7,33 @@ import {
   validationMapper,
 } from "./vendors/utils.js";
 
+type TypeBoxValidator = {
+  Check: (value: unknown) => unknown;
+  Errors: (value: unknown) => unknown;
+  Type: () => unknown;
+};
+
+// `typebox` dropped Standard Schema in 1.0.28, so a validator from its
+// `Compile` no longer carries `~standard` and is recognised by its methods.
+const isTypeBoxValidator = (schema: object): schema is TypeBoxValidator =>
+  !("~standard" in schema) &&
+  ["Check", "Errors", "Type"].every(
+    (method) =>
+      typeof (schema as Record<string, unknown>)[method] === "function",
+  );
+
+const vendorOf = (schema: StandardSchemaV1 | TypeBoxValidator) =>
+  isTypeBoxValidator(schema) ? "typebox" : schema["~standard"].vendor;
+
 /**
  * Converts a Standard Schema to a JSON schema.
  */
 export const toJsonSchema = quansync({
-  sync: (schema: StandardSchemaV1, options?: Record<string, unknown>) => {
-    const vendor = schema["~standard"].vendor;
+  sync: (
+    schema: StandardSchemaV1 | TypeBoxValidator,
+    options?: Record<string, unknown>,
+  ) => {
+    const vendor = vendorOf(schema);
     const fn = validationMapper.get(vendor);
 
     if (!fn) {
@@ -22,10 +43,10 @@ export const toJsonSchema = quansync({
     return fn(schema, options);
   },
   async: async (
-    schema: StandardSchemaV1,
+    schema: StandardSchemaV1 | TypeBoxValidator,
     options?: Record<string, unknown>,
   ) => {
-    const fn = await getToJsonSchemaFn(schema["~standard"].vendor);
+    const fn = await getToJsonSchemaFn(vendorOf(schema));
     return fn(schema, options);
   },
 });
