@@ -4,6 +4,11 @@ import type { $ZodType } from "zod/v4/core";
 import type { OverrideCallback } from "zod-to-json-schema";
 import { ioOf, MissingDependencyError, type ToJsonSchemaFn } from "./utils.js";
 
+type ZodToJsonSchema = Pick<
+  typeof import("zod-to-json-schema"),
+  "ignoreOverride" | "parseDef"
+>;
+
 const importIfInstalled = async <T>(load: () => Promise<T>) => {
   try {
     return await load();
@@ -14,19 +19,29 @@ const importIfInstalled = async <T>(load: () => Promise<T>) => {
 
 // `zod-to-json-schema` writes a `transform` as the input it accepts, which
 // needn't describe what it outputs, so the output allows any value there. An
-// `override` passed in the options still decides first.
+// `override` passed in the options still decides first. The transform is then
+// parsed as `effectStrategy: "any"` would parse it, so that its description and
+// a `postProcess` passed in the options still apply, which returning a schema
+// from the `override` would skip. The `override` is left out there, as it
+// already ran for this transform.
 const allowAnyTransformOutput =
   (
-    ignoreOverride: ReturnType<OverrideCallback>,
+    { ignoreOverride, parseDef }: ZodToJsonSchema,
     override?: OverrideCallback,
   ): OverrideCallback =>
-  (def, ...rest) => {
-    const own = override ? override(def, ...rest) : ignoreOverride;
+  (def, refs, seen, forceResolution) => {
+    const own = override
+      ? override(def, refs, seen, forceResolution)
+      : ignoreOverride;
     if (own !== ignoreOverride) {
       return own;
     }
     return (def as ZodEffectsDef).effect?.type === "transform"
-      ? {}
+      ? parseDef(
+          def,
+          { ...refs, effectStrategy: "any", override: undefined },
+          forceResolution,
+        )
       : ignoreOverride;
   };
 
@@ -60,7 +75,7 @@ export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
       ...(io === "output" && !options?.effectStrategy
         ? {
             override: allowAnyTransformOutput(
-              zodToJsonSchema.ignoreOverride,
+              zodToJsonSchema,
               options?.override as OverrideCallback | undefined,
             ),
           }

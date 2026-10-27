@@ -99,6 +99,26 @@ describe("io", () => {
     });
   });
 
+  it("keeps the description of a zod 3 transform in the output", async () => {
+    const schema = z.object({
+      quantity: z.string().transform(Number).describe("Number of pets"),
+    });
+
+    expect((await convert(schema, { io: "output" })).properties).toEqual({
+      quantity: { description: "Number of pets" },
+    });
+  });
+
+  it("post-processes a zod 3 transform in the output", async () => {
+    const schema = z.object({ quantity: z.string().transform(Number) });
+    const postProcess = (jsonSchema: object | undefined) =>
+      jsonSchema && { ...jsonSchema, readOnly: true };
+
+    expect(
+      (await convert(schema, { io: "output", postProcess })).properties,
+    ).toEqual({ quantity: { readOnly: true } });
+  });
+
   it.each([
     [
       "valibot",
