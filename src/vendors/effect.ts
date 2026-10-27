@@ -29,9 +29,12 @@ export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
       return (schema, options) => {
         const io = ioOf(options);
         const side = schema as Schema.Schema<unknown>;
+        // `encodedSchema` drops every refinement, so a schema that doesn't
+        // transform would lose its constraints. `encodedBoundSchema` keeps
+        // those before the first transformation.
         return JSONSchema.make(
           io === "input"
-            ? effect.Schema.encodedSchema(side)
+            ? effect.Schema.encodedBoundSchema(side)
             : io === "output"
               ? effect.Schema.typeSchema(side)
               : side,

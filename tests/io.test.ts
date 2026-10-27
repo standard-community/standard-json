@@ -8,12 +8,25 @@ import { z as z4 } from "zod/v4";
 
 import { toJsonSchema } from "~/index.js";
 
-const convert = async (schema: unknown, options: Record<string, unknown>) => {
-  const { $schema: _, ...jsonSchema } = (await toJsonSchema(
-    schema as Parameters<typeof toJsonSchema>[0],
-    options,
-  )) as Record<string, unknown>;
-  return jsonSchema;
+type Convertible = Parameters<typeof toJsonSchema>[0];
+
+const withoutDialect = ({
+  $schema: _,
+  ...jsonSchema
+}: object & {
+  $schema?: unknown;
+}) => jsonSchema as Record<string, unknown>;
+
+const convert = async (schema: unknown, options: Record<string, unknown>) =>
+  withoutDialect(await toJsonSchema(schema as Convertible, options));
+
+// `toJsonSchema.sync` needs the vendor's handler, which `toJsonSchema` loads.
+const convertSync = async (
+  schema: unknown,
+  options: Record<string, unknown>,
+) => {
+  await toJsonSchema(schema as Convertible);
+  return withoutDialect(toJsonSchema.sync(schema as Convertible, options));
 };
 
 describe("io", () => {
@@ -78,6 +91,27 @@ describe("io", () => {
       properties: { quantity: { type: "number" }, size: { type: "string" } },
       required: ["quantity", "size"],
     });
+  });
+
+  it.each([
+    ["toJsonSchema", convert],
+    ["toJsonSchema.sync", convertSync],
+  ])("keeps the refinements of effect in the input with %s", async (_, run) => {
+    const Name = Schema.String.pipe(Schema.minLength(3));
+    const Quantity = Schema.Number.pipe(Schema.positive());
+    const name = { minLength: 3, type: "string" };
+    const quantity = { exclusiveMinimum: 0, type: "number" };
+    const input = <A, I>(schema: Schema.Schema<A, I>) =>
+      run(Schema.standardSchemaV1(schema), { io: "input" });
+
+    expect(await input(Name)).toMatchObject(name);
+    expect(await input(Quantity)).toMatchObject(quantity);
+    expect(
+      await input(Schema.Struct({ name: Name, quantity: Quantity })),
+    ).toMatchObject({ properties: { name, quantity } });
+    expect(
+      await input(Schema.compose(Name, Schema.NumberFromString)),
+    ).toMatchObject(name);
   });
 
   it("converts the input or the output of zod 4", async () => {
