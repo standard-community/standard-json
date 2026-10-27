@@ -16,6 +16,7 @@ type Effect4 = {
   };
   Schema: {
     toJsonSchemaDocument: (schema: unknown) => JsonSchemaDocument;
+    toType: (schema: unknown) => unknown;
   };
 };
 
@@ -43,13 +44,17 @@ export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
     }
 
     const { JsonSchema, Schema } = effect as unknown as Effect4;
-    return (schema) => {
+    return (schema, options) => {
       // `effect` 4 writes draft 2020-12. Converting it to draft-07, which
       // `effect` 3 writes, keeps the dialect the same across both versions.
       // The converted `$ref`s point to `#/definitions/`, so that's where the
-      // definitions go.
+      // definitions go. A schema is converted as the input it accepts, so
+      // its output is converted from `toType`, as `effect`'s own Standard
+      // JSON Schema does; both keep the refinements on their side.
       const { definitions, schema: jsonSchema } = JsonSchema.toDocumentDraft07(
-        Schema.toJsonSchemaDocument(schema),
+        Schema.toJsonSchemaDocument(
+          ioOf(options) === "output" ? Schema.toType(schema) : schema,
+        ),
       );
       return {
         $schema: JsonSchema.META_SCHEMA_URI_DRAFT_07,
