@@ -28,7 +28,7 @@ importers:
         specifier: ^2.1.20
         version: 2.1.20
       effect:
-        specifier: ^3.20.0
+        specifier: ^3.20.0 || ^4.0.0
         version: 3.22.1
       quansync:
         specifier: ^0.2.11
@@ -55,6 +55,9 @@ importers:
       '@types/node':
         specifier: ^24.3.1
         version: 24.3.1
+      effect-4:
+        specifier: npm:effect@^4.0.0
+        version: effect@4.0.6
       pkgroll:
         specifier: ^2.28.1
         version: 2.28.1(typescript@5.8.3)(vite@6.4.3(@types/node@24.3.1)(yaml@2.9.0))
@@ -745,6 +748,9 @@ packages:
 
   effect@3.22.1:
     resolution: {integrity: sha512-TNoXushmPOBAjJlthF5d2QwnX2xBPEtcNJr5XKNKbRLbDvBcOYkXlYDfvGfSA0zriwLFuCll5MDtNMAdZL17PQ==}
+
+  effect@4.0.6:
+    resolution: {integrity: sha512-Tc3mkzuLR6t6P9dhLt0D2GrxYtmU5td4XEJEiXCmILz53IRIfJyHsKZWjTA3xEjiwpNTtXBgI4iqYPxMztBDrw==}
 
   es-module-lexer@1.7.0:
     resolution: {integrity: sha512-jEQoCwk8hyb2AZziIOLhDqpm5+2ww5uIE6lkO/6jcOCusfk6LhMHpXXfBLXTZ7Ydyt0j4VoUQv6uGNYbdW+kBA==}
@@ -1555,6 +1561,8 @@ snapshots:
     dependencies:
       '@standard-schema/spec': 1.0.0
       fast-check: 3.23.2
+
+  effect@4.0.6: {}
 
   es-module-lexer@1.7.0: {}
 
