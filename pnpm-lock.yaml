@@ -28,13 +28,13 @@ importers:
         specifier: ^2.1.20
         version: 2.1.20
       effect:
-        specifier: ^3.20.0
+        specifier: ^3.20.0 || ^4.0.0
         version: 3.22.1
       quansync:
         specifier: ^0.2.11
         version: 0.2.11
       sury:
-        specifier: ^10.0.0
+        specifier: ^10.0.0 || ^11.0.0
         version: 10.0.4
       typebox:
         specifier: ^1.0.17
@@ -55,9 +55,15 @@ importers:
       '@types/node':
         specifier: ^24.3.1
         version: 24.3.1
+      effect-4:
+        specifier: npm:effect@^4.0.0
+        version: effect@4.0.6
       pkgroll:
         specifier: ^2.28.1
         version: 2.28.1(typescript@5.8.3)(vite@6.4.3(@types/node@24.3.1)(yaml@2.9.0))
+      sury-11:
+        specifier: npm:sury@^11.0.0
+        version: sury@11.0.0
       typebox-1.2:
         specifier: npm:typebox@~1.2.0
         version: typebox@1.2.19
@@ -752,6 +758,9 @@ packages:
   effect@3.22.1:
     resolution: {integrity: sha512-TNoXushmPOBAjJlthF5d2QwnX2xBPEtcNJr5XKNKbRLbDvBcOYkXlYDfvGfSA0zriwLFuCll5MDtNMAdZL17PQ==}
 
+  effect@4.0.6:
+    resolution: {integrity: sha512-Tc3mkzuLR6t6P9dhLt0D2GrxYtmU5td4XEJEiXCmILz53IRIfJyHsKZWjTA3xEjiwpNTtXBgI4iqYPxMztBDrw==}
+
   es-module-lexer@1.7.0:
     resolution: {integrity: sha512-jEQoCwk8hyb2AZziIOLhDqpm5+2ww5uIE6lkO/6jcOCusfk6LhMHpXXfBLXTZ7Ydyt0j4VoUQv6uGNYbdW+kBA==}
 
@@ -974,6 +983,14 @@ packages:
     resolution: {integrity: sha512-dWKqOv+6D4AwGCjeKyaWr157RVBtvnPUp1I6RxReYD1dYuBl4k6oUd/t5INh1mBhUuAEC9SP+rZmIunCyNjXzQ==}
     peerDependencies:
       rescript: 11.x
+    peerDependenciesMeta:
+      rescript:
+        optional: true
+
+  sury@11.0.0:
+    resolution: {integrity: sha512-ixo9P04kr1VB15m+9OX1llkGYityBl5z79XBZqU4hIUjixbdoaoK92wO25DsPqVH8UjyB1rbotf8Gqj0K/uRwA==}
+    peerDependencies:
+      rescript: 12.x
     peerDependenciesMeta:
       rescript:
         optional: true
@@ -1568,6 +1585,8 @@ snapshots:
       '@standard-schema/spec': 1.0.0
       fast-check: 3.23.2
 
+  effect@4.0.6: {}
+
   es-module-lexer@1.7.0: {}
 
   esbuild@0.25.5:
@@ -1829,6 +1848,8 @@ snapshots:
   supports-preserve-symlinks-flag@1.0.0: {}
 
   sury@10.0.4: {}
+
+  sury@11.0.0: {}
 
   tinybench@2.9.0: {}
 
