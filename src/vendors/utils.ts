@@ -24,3 +24,38 @@ export class MissingDependencyError extends Error {
     super(`standard-json: Missing dependencies "${packageName}".`);
   }
 }
+
+/**
+ * Standard JSON Schema (https://standardschema.dev/json-schema): a schema
+ * whose `~standard` carries `jsonSchema.input()` and `jsonSchema.output()`
+ * can produce its own JSON Schema, whatever its vendor. Returns a converter
+ * for such a schema, or null when the schema does not carry one. The
+ * converter takes the side `options.io` asks for, the input when it names
+ * none, with `options.target` (`draft-2020-12` when none is given) and the
+ * options as the library's own.
+ */
+export function fromStandardJsonSchema(schema: unknown): ToJsonSchemaFn | null {
+  type Convert = (options: {
+    target: string;
+    libraryOptions?: unknown;
+  }) => unknown;
+  const std = (schema as { "~standard"?: { jsonSchema?: unknown } } | null)?.[
+    "~standard"
+  ];
+  const jsonSchema = std?.jsonSchema as
+    | { input?: unknown; output?: unknown }
+    | undefined;
+  const input = jsonSchema?.input;
+  const output = jsonSchema?.output;
+  if (typeof input !== "function" || typeof output !== "function") {
+    return null;
+  }
+  // Called as methods of `jsonSchema`, so one written with `this` still works.
+  const sides = jsonSchema as { input: Convert; output: Convert };
+  return (_schema, options) => {
+    const target =
+      typeof options?.target === "string" ? options.target : "draft-2020-12";
+    const side = ioOf(options) ?? "input";
+    return sides[side]({ target, libraryOptions: options }) as JSONSchema7;
+  };
+}
