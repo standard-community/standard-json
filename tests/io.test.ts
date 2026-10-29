@@ -125,6 +125,37 @@ describe("io", () => {
     });
   });
 
+  it.each([
+    ["toJsonSchema", convert],
+    ["toJsonSchema.sync", convertSync],
+  ])("converts the input of zod 4 without io with %s", async (_, run) => {
+    const schema = z4.object({
+      pinned: z4.boolean().default(false),
+      title: z4.string(),
+    });
+
+    expect(await run(schema, {})).toMatchObject({ required: ["title"] });
+    expect(await run(schema, { io: "output" })).toMatchObject({
+      required: ["pinned", "title"],
+    });
+  });
+
+  it("converts the input of a zod 3 pipe without io", async () => {
+    const schema = z.object({ quantity: z.string().pipe(z.coerce.number()) });
+
+    expect((await convert(schema, {})).properties).toEqual({
+      quantity: { type: "string" },
+    });
+  });
+
+  it("lets the pipeStrategy of zod 3 win over the input default", async () => {
+    const schema = z.object({ quantity: z.string().pipe(z.coerce.number()) });
+
+    expect(
+      (await convert(schema, { pipeStrategy: "output" })).properties,
+    ).toEqual({ quantity: { type: "number" } });
+  });
+
   it("keeps a zod 3 refinement in the output", async () => {
     const schema = z.object({ name: z.string().refine((name) => name !== "") });
 
