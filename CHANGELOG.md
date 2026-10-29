@@ -1,4 +1,23 @@
 # Changelog
+## 0.4.0
+
+### New Features ✨
+
+- (effect) Support `effect` v4 by @MichaelDeBoey in [#29](https://github.com/standard-community/standard-json/pull/29)
+- (sury) Support `sury` v11 by @MichaelDeBoey in [#30](https://github.com/standard-community/standard-json/pull/30)
+- Choose whether a schema's input or output is converted by @MichaelDeBoey in [#21](https://github.com/standard-community/standard-json/pull/21)
+
+### Bug Fixes 🐛
+
+- (arktype) Convert a schema that transforms its input by @MichaelDeBoey in [#19](https://github.com/standard-community/standard-json/pull/19)
+- (typebox) Convert a schema from `typebox` 1.0.28 and later by @MichaelDeBoey in [#31](https://github.com/standard-community/standard-json/pull/31)
+- (valibot) Convert a schema that transforms its input by @MichaelDeBoey in [#23](https://github.com/standard-community/standard-json/pull/23)
+- (zod) Convert a schema synchronously once `zod` is loaded by @MichaelDeBoey in [#25](https://github.com/standard-community/standard-json/pull/25)
+
+### Internal Changes 🔧
+
+- (deps) Update vulnerable development dependencies by @MathurAditya724 in [#32](https://github.com/standard-community/standard-json/pull/32)
+
 ## 0.3.7
 
 ### Documentation 📚
