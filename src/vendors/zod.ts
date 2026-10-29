@@ -1,7 +1,13 @@
 import type { JSONSchema7 } from "json-schema";
-import type { ZodTypeAny } from "zod/v3";
+import type { ZodEffectsDef, ZodTypeAny } from "zod/v3";
 import type { $ZodType } from "zod/v4/core";
-import { MissingDependencyError, type ToJsonSchemaFn } from "./utils.js";
+import type { OverrideCallback } from "zod-to-json-schema";
+import { ioOf, MissingDependencyError, type ToJsonSchemaFn } from "./utils.js";
+
+type ZodToJsonSchema = Pick<
+  typeof import("zod-to-json-schema"),
+  "ignoreOverride" | "parseDef"
+>;
 
 const importIfInstalled = async <T>(load: () => Promise<T>) => {
   try {
@@ -10,6 +16,34 @@ const importIfInstalled = async <T>(load: () => Promise<T>) => {
     return undefined;
   }
 };
+
+// `zod-to-json-schema` writes a `transform` as the input it accepts, which
+// needn't describe what it outputs, so the output allows any value there. An
+// `override` passed in the options still decides first. The transform is then
+// parsed as `effectStrategy: "any"` would parse it, so that its description and
+// a `postProcess` passed in the options still apply, which returning a schema
+// from the `override` would skip. The `override` is left out there, as it
+// already ran for this transform.
+const allowAnyTransformOutput =
+  (
+    { ignoreOverride, parseDef }: ZodToJsonSchema,
+    override?: OverrideCallback,
+  ): OverrideCallback =>
+  (def, refs, seen, forceResolution) => {
+    const own = override
+      ? override(def, refs, seen, forceResolution)
+      : ignoreOverride;
+    if (own !== ignoreOverride) {
+      return own;
+    }
+    return (def as ZodEffectsDef).effect?.type === "transform"
+      ? parseDef(
+          def,
+          { ...refs, effectStrategy: "any", override: undefined },
+          forceResolution,
+        )
+      : ignoreOverride;
+  };
 
 export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
   // Both converters are imported up front, so that `toJsonSchema.sync` can use
@@ -32,9 +66,20 @@ export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
     if (!zodToJsonSchema) {
       throw new MissingDependencyError("zod-to-json-schema");
     }
-    return zodToJsonSchema.zodToJsonSchema(
-      schema as ZodTypeAny,
-      options,
-    ) as JSONSchema7;
+    // `zod` 4 takes `io` itself; `zod-to-json-schema` picks a pipe's side,
+    // and an `effectStrategy` passed in the options decides on transforms.
+    const io = ioOf(options);
+    return zodToJsonSchema.zodToJsonSchema(schema as ZodTypeAny, {
+      ...(io ? { pipeStrategy: io } : {}),
+      ...options,
+      ...(io === "output" && !options?.effectStrategy
+        ? {
+            override: allowAnyTransformOutput(
+              zodToJsonSchema,
+              options?.override as OverrideCallback | undefined,
+            ),
+          }
+        : {}),
+    }) as JSONSchema7;
   };
 }

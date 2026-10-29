@@ -1,6 +1,6 @@
 import type { Schema } from "effect";
 import type { JSONSchema7 } from "json-schema";
-import { MissingDependencyError, type ToJsonSchemaFn } from "./utils.js";
+import { ioOf, MissingDependencyError, type ToJsonSchemaFn } from "./utils.js";
 
 type JsonSchemaDocument = {
   definitions: Record<string, JSONSchema7>;
@@ -16,6 +16,7 @@ type Effect4 = {
   };
   Schema: {
     toJsonSchemaDocument: (schema: unknown) => JsonSchemaDocument;
+    toType: (schema: unknown) => unknown;
   };
 };
 
@@ -26,18 +27,34 @@ export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
     // `effect` 4 replaced the `JSONSchema` module with `JsonSchema`.
     if ("JSONSchema" in effect) {
       const { JSONSchema } = effect;
-      return (schema) =>
-        JSONSchema.make(schema as Schema.Schema<unknown>) as JSONSchema7;
+      return (schema, options) => {
+        const io = ioOf(options);
+        const side = schema as Schema.Schema<unknown>;
+        // `encodedSchema` drops every refinement, so a schema that doesn't
+        // transform would lose its constraints. `encodedBoundSchema` keeps
+        // those before the first transformation.
+        return JSONSchema.make(
+          io === "input"
+            ? effect.Schema.encodedBoundSchema(side)
+            : io === "output"
+              ? effect.Schema.typeSchema(side)
+              : side,
+        ) as JSONSchema7;
+      };
     }
 
     const { JsonSchema, Schema } = effect as unknown as Effect4;
-    return (schema) => {
+    return (schema, options) => {
       // `effect` 4 writes draft 2020-12. Converting it to draft-07, which
       // `effect` 3 writes, keeps the dialect the same across both versions.
       // The converted `$ref`s point to `#/definitions/`, so that's where the
-      // definitions go.
+      // definitions go. A schema is converted as the input it accepts, so
+      // its output is converted from `toType`, as `effect`'s own Standard
+      // JSON Schema does; both keep the refinements on their side.
       const { definitions, schema: jsonSchema } = JsonSchema.toDocumentDraft07(
-        Schema.toJsonSchemaDocument(schema),
+        Schema.toJsonSchemaDocument(
+          ioOf(options) === "output" ? Schema.toType(schema) : schema,
+        ),
       );
       return {
         $schema: JsonSchema.META_SCHEMA_URI_DRAFT_07,
