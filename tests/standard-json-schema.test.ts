@@ -76,6 +76,33 @@ describe("standard json schema", () => {
     },
   );
 
+  it("calls input() and output() as methods, so one written with this works", async () => {
+    const schema = {
+      "~standard": {
+        version: 1,
+        vendor: "example-with-methods",
+        validate: (value: unknown) => ({ value }),
+        jsonSchema: {
+          inputDocument: { type: "string", $comment: "input" },
+          outputDocument: { type: "number", $comment: "output" },
+          input() {
+            return this.inputDocument;
+          },
+          output() {
+            return this.outputDocument;
+          },
+        },
+      },
+    } as unknown as StandardSchemaV1;
+    for (const io of ["input", "output"] as const) {
+      expect(await toJsonSchema(schema, { io })).toMatchObject({
+        $comment: io,
+      });
+      expect(toJsonSchema.sync(schema, { io })).toMatchObject({ $comment: io });
+    }
+    expect(await toJsonSchema(schema)).toMatchObject({ $comment: "input" });
+  });
+
   it("passes the target and the options through", async () => {
     const { schema, calls } = ownSchema();
     await toJsonSchema(schema, { target: "draft-07", io: "output", x: 1 });

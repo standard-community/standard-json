@@ -50,11 +50,12 @@ export function fromStandardJsonSchema(schema: unknown): ToJsonSchemaFn | null {
   if (typeof input !== "function" || typeof output !== "function") {
     return null;
   }
-  const sides = { input: input as Convert, output: output as Convert };
+  // Called as methods of `jsonSchema`, so one written with `this` still works.
+  const sides = jsonSchema as { input: Convert; output: Convert };
   return (_schema, options) => {
     const target =
       typeof options?.target === "string" ? options.target : "draft-2020-12";
-    const convert = sides[ioOf(options) ?? "input"];
-    return convert({ target, libraryOptions: options }) as JSONSchema7;
+    const side = ioOf(options) ?? "input";
+    return sides[side]({ target, libraryOptions: options }) as JSONSchema7;
   };
 }
