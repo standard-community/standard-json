@@ -32,7 +32,8 @@ export class MissingDependencyError extends Error {
  * for such a schema, or null when the schema does not carry one. The
  * converter takes the side `options.io` asks for, the input when it names
  * none, with `options.target` (`draft-2020-12` when none is given) and the
- * options as the library's own.
+ * other options as the library's own: `io` and `target` are standard-json's,
+ * so a library that spreads its options into its config doesn't get them.
  */
 export function fromStandardJsonSchema(schema: unknown): ToJsonSchemaFn | null {
   type Convert = (options: {
@@ -56,6 +57,8 @@ export function fromStandardJsonSchema(schema: unknown): ToJsonSchemaFn | null {
     const target =
       typeof options?.target === "string" ? options.target : "draft-2020-12";
     const side = ioOf(options) ?? "input";
-    return sides[side]({ target, libraryOptions: options }) as JSONSchema7;
+    const { io: _io, target: _target, ...rest } = options ?? {};
+    const libraryOptions = Object.keys(rest).length > 0 ? rest : undefined;
+    return sides[side]({ target, libraryOptions }) as JSONSchema7;
   };
 }

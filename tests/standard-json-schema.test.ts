@@ -103,16 +103,28 @@ describe("standard json schema", () => {
     expect(await toJsonSchema(schema)).toMatchObject({ $comment: "input" });
   });
 
-  it("passes the target and the options through", async () => {
+  it("passes the target, and the other options as the library's own, async and sync", async () => {
     const { schema, calls } = ownSchema();
-    await toJsonSchema(schema, { target: "draft-07", io: "output", x: 1 });
-    expect(calls[0]).toEqual({
+    const options = { extra: 1, io: "output", target: "draft-07" };
+    await toJsonSchema(schema, options);
+    toJsonSchema.sync(schema, options);
+    const call = {
       side: "output",
-      options: {
-        target: "draft-07",
-        libraryOptions: { target: "draft-07", io: "output", x: 1 },
-      },
-    });
+      options: { libraryOptions: { extra: 1 }, target: "draft-07" },
+    };
+    expect(calls).toEqual([call, call]);
+  });
+
+  it("passes no library options when only io and target are given, async and sync", async () => {
+    const { schema, calls } = ownSchema();
+    const options = { io: "output", target: "draft-07" };
+    await toJsonSchema(schema, options);
+    toJsonSchema.sync(schema, options);
+    const call = {
+      side: "output",
+      options: { libraryOptions: undefined, target: "draft-07" },
+    };
+    expect(calls).toEqual([call, call]);
   });
 
   it("still rejects a vendor it does not know when no JSON Schema is carried", async () => {
