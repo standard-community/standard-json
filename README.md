@@ -43,7 +43,7 @@ const inputSchema = await toJsonSchema(schema, { io: "input" });
 const outputSchema = await toJsonSchema(schema, { io: "output" });
 ```
 
-Without `io`, each vendor converts the side it does by default. A vendor's own option for it, like `typeMode` for Valibot, still wins.
+Without `io`, every vendor converts the input. A vendor's own option for it, like `typeMode` for Valibot or `pipeStrategy` for `zod-to-json-schema`, still wins.
 
 ### A schema that carries its own JSON Schema
 
