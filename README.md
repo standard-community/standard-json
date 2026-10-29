@@ -47,7 +47,7 @@ Without `io`, each vendor converts the side it does by default. A vendor's own o
 
 ### A schema that carries its own JSON Schema
 
-A schema from a library that is not on the built-in list converts as well when it carries [Standard JSON Schema](https://standardschema.dev/json-schema), the `jsonSchema` member of `~standard`: `toJsonSchema` calls its `input()`, or `output()` when `io` says so, with the `target` from the options (`draft-2020-12` when none is given). A built-in vendor or a handler registered with `loadVendor` still takes precedence.
+A schema from a library that is not on the built-in list converts as well when it carries [Standard JSON Schema](https://standardschema.dev/json-schema), the `jsonSchema` member of `~standard`: `toJsonSchema` calls its `input()`, or `output()` when `io` says so, with the `target` from the options (`draft-2020-12` when none is given). The other options, without `io` and `target`, reach it as `libraryOptions`, which is `undefined` when there are none. A built-in vendor or a handler registered with `loadVendor` still takes precedence.
 
 ### Sync Usage
 
