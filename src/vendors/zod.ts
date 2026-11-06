@@ -55,22 +55,29 @@ export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
   ]);
 
   return (schema, options) => {
+    // Every vendor converts the input unless the options name an `io`.
+    const io = ioOf(options);
+
     // https://zod.dev/library-authors?id=how-to-support-zod-and-zod-mini-simultaneously#how-to-support-zod-3-and-zod-4-simultaneously
     if ("_zod" in (schema as $ZodType | ZodTypeAny)) {
       if (!zod4) {
         throw new MissingDependencyError("zod v4");
       }
-      return zod4.toJSONSchema(schema as $ZodType, options) as JSONSchema7;
+      // `zod` 4 converts the output when it's given no `io`.
+      return zod4.toJSONSchema(schema as $ZodType, {
+        ...options,
+        io: io ?? "input",
+      }) as JSONSchema7;
     }
 
     if (!zodToJsonSchema) {
       throw new MissingDependencyError("zod-to-json-schema");
     }
-    // `zod` 4 takes `io` itself; `zod-to-json-schema` picks a pipe's side,
-    // and an `effectStrategy` passed in the options decides on transforms.
-    const io = ioOf(options);
+    // `zod-to-json-schema` picks a pipe's side, and both when it's given no
+    // `pipeStrategy`. An `effectStrategy` passed in the options decides on
+    // transforms.
     return zodToJsonSchema.zodToJsonSchema(schema as ZodTypeAny, {
-      ...(io ? { pipeStrategy: io } : {}),
+      pipeStrategy: io ?? "input",
       ...options,
       ...(io === "output" && !options?.effectStrategy
         ? {

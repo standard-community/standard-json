@@ -137,7 +137,6 @@ exports[`basic > valibot 1`] = `
 exports[`basic > zod 1`] = `
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "additionalProperties": false,
   "description": "My neat object schema",
   "properties": {
     "myString": {
@@ -189,7 +188,6 @@ exports[`basic > zod 2`] = `
 exports[`basic > zod 3`] = `
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "additionalProperties": false,
   "properties": {
     "myString": {
       "type": "string",
