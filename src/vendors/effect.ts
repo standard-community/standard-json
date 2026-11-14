@@ -30,15 +30,19 @@ export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
       return (schema, options) => {
         const io = ioOf(options);
         const side = schema as Schema.Schema<unknown>;
-        // `encodedSchema` drops every refinement, so a schema that doesn't
-        // transform would lose its constraints. `encodedBoundSchema` keeps
-        // those before the first transformation.
+        if (io === "input") {
+          // Keep identifiers and refinements on the original AST. `make`
+          // special-cases a top-level JSON parser as its parsed output.
+          const definitions = {};
+          const jsonSchema = JSONSchema.fromAST(side.ast, { definitions });
+          return {
+            $schema: "http://json-schema.org/draft-07/schema#",
+            ...jsonSchema,
+            ...(Object.keys(definitions).length > 0 && { $defs: definitions }),
+          } as JSONSchema7;
+        }
         return JSONSchema.make(
-          io === "input"
-            ? effect.Schema.encodedBoundSchema(side)
-            : io === "output"
-              ? effect.Schema.typeSchema(side)
-              : side,
+          io === "output" ? effect.Schema.typeSchema(side) : side,
         ) as JSONSchema7;
       };
     }
