@@ -1,4 +1,15 @@
 # Changelog
+## 0.4.1
+
+### New Features ✨
+
+- Convert a schema that carries Standard JSON Schema without a vendor handler by @mertcanaltin in [#14](https://github.com/standard-community/standard-json/pull/14)
+
+### Bug Fixes 🐛
+
+- (effect) Preserve identifiers during input conversion by @MathurAditya724 in [#39](https://github.com/standard-community/standard-json/pull/39)
+- Leave `io` and `target` out of the `libraryOptions` a schema's converter gets by @MichaelDeBoey in [#35](https://github.com/standard-community/standard-json/pull/35)
+
 ## 0.4.0
 
 ### New Features ✨
