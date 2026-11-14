@@ -84,7 +84,11 @@ describe("io", () => {
     );
 
     expect(await convert(schema, { io: "input" })).toMatchObject({
-      properties: { quantity: { type: "string" }, size: { type: "string" } },
+      $defs: { NumberFromString: { type: "string" } },
+      properties: {
+        quantity: { $ref: "#/$defs/NumberFromString" },
+        size: { type: "string" },
+      },
       required: ["quantity"],
     });
     expect(await convert(schema, { io: "output" })).toMatchObject({
