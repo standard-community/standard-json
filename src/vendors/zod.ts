@@ -9,14 +9,6 @@ type ZodToJsonSchema = Pick<
   "ignoreOverride" | "parseDef"
 >;
 
-const importIfInstalled = async <T>(load: () => Promise<T>) => {
-  try {
-    return await load();
-  } catch {
-    return undefined;
-  }
-};
-
 // `zod-to-json-schema` writes a `transform` as the input it accepts, which
 // needn't describe what it outputs, so the output allows any value there. An
 // `override` passed in the options still decides first. The transform is then
@@ -48,10 +40,25 @@ const allowAnyTransformOutput =
 export default async function getToJsonSchemaFn(): Promise<ToJsonSchemaFn> {
   // Both converters are imported up front, so that `toJsonSchema.sync` can use
   // the handler once it's loaded. A missing one only fails for the schemas
-  // that need it.
+  // that need it. Each `import()` is written inside the `try` that catches it,
+  // as the other vendors' are: a bundler such as esbuild or Bun leaves an
+  // import it can't resolve to fail at runtime only when it sits in a `try`,
+  // and fails the build when it's in a callback passed to a helper instead.
   const [zod4, zodToJsonSchema] = await Promise.all([
-    importIfInstalled(() => import("zod/v4/core")),
-    importIfInstalled(() => import("zod-to-json-schema")),
+    (async () => {
+      try {
+        return await import("zod/v4/core");
+      } catch {
+        return undefined;
+      }
+    })(),
+    (async () => {
+      try {
+        return await import("zod-to-json-schema");
+      } catch {
+        return undefined;
+      }
+    })(),
   ]);
 
   return (schema, options) => {
